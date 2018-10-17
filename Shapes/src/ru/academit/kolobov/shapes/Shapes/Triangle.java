@@ -1,6 +1,6 @@
 package ru.academit.kolobov.shapes.Shapes;
 
-public class Triangle implements Shape {
+public class Triangle implements Shape, Comparable<Shape> {
     private double x1;
     private double x2;
     private double x3;
@@ -17,7 +17,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double getLengthSide(double x1, double y1, double x2, double y2) {
+    private static double getLengthSide(double x1, double y1, double x2, double y2) {//надо сделать статик т.к. не работает с полями.
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
@@ -33,12 +33,27 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double p = getPerimeter();
-        return Math.sqrt(p * (p - getLengthSide(x1, y1, x2, y2)) * (p - getLengthSide(x2, y2, x3, y3)) * (p - getLengthSide(x3, y3, x1, y1)));
+        double halfPerimetr = getPerimeter() / 2;
+        return Math.sqrt(halfPerimetr * (halfPerimetr - getLengthSide(x1, y1, x2, y2)) * (halfPerimetr - getLengthSide(x2, y2, x3, y3)) * (halfPerimetr - getLengthSide(x3, y3, x1, y1)));
     }
 
     @Override
     public double getPerimeter() {
         return getLengthSide(x1, y1, x2, y2) + getLengthSide(x2, y2, x3, y3) + getLengthSide(x3, y3, x1, y1);
+    }
+
+    @Override
+    public int compareTo(Shape f) {
+        return (int) (this.getArea() - f.getArea());
+    }
+
+    @Override
+    public String toString() {
+        return "[Треугольник (" + this.x1 + "-" + this.y1 + "), (" + this.x2 + "-" + this.y2 + "), (" + this.x3 + "-" + this.y3 + ")]";
+    }
+
+    @Override
+    public int hashCode() {
+        return 37 * 3 + (int) (this.x1 + this.y1 + this.x2 + this.y2 + this.x3 + this.y3);
     }
 }

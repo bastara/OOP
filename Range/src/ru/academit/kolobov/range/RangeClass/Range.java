@@ -37,7 +37,11 @@ public class Range {
         if (interval2.from > this.to || interval2.to < this.from) {
             return null;
         } else {
-            return new Range(Math.max(this.from, interval2.from), Math.min(this.to, interval2.to));
+            if (Math.max(this.from, interval2.from) - Math.min(this.to, interval2.to) == 0) {
+                return null;
+            } else {
+                return new Range(Math.max(this.from, interval2.from), Math.min(this.to, interval2.to));
+            }
         }
     }
 
@@ -65,7 +69,7 @@ public class Range {
                 }
             }
         }
-        return null;
+        return new Range[0];
     }
 }
 

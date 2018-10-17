@@ -4,9 +4,9 @@ import ru.academit.kolobov.range.RangeClass.Range;
 
 public class MainStar {
     public static void main(String[] args) {
-        double point1Start = 2;
-        double point1End = 8;
-        double point2Start = 0;
+        double point1Start = 1;
+        double point1End = 3;
+        double point2Start = 3;
         double point2End = 5;
 
         Range interval1 = new Range(point1Start, point1End);
