@@ -50,4 +50,14 @@ public class Circle implements Shape, Comparable<Shape> {
     public int hashCode() {
         return 37 * 314 + (int) this.radius;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return this.toString().equals(o.toString());
+
+    }
 }

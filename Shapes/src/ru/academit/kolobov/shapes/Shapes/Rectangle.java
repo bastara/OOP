@@ -53,4 +53,14 @@ public class Rectangle implements Shape, Comparable<Shape> {
     public int hashCode() {
         return 37 * 2 + (int) (this.side1 + this.side2);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return this.toString().equals(o.toString());
+
+    }
 }

@@ -25,7 +25,14 @@ public class Main {
 
         System.out.println("Фигура с максимальной площадью это " + getMaxArea(shapes));
 
-        System.out.println("Фигура со вторым по величине периметром это " + getMaxPerimetr(shapes));
+        System.out.println("Фигура со вторым по величине периметром это " + getMaxPerimeter(shapes));
+
+        System.out.println(Arrays.toString(shapes));
+        if (circle1.equals(circle2)) {
+            System.out.println("Фигуры одинаковы");
+        } else {
+            System.out.println("Фигуры разные");
+        }
     }
 
     private static int getSumArea(Shape[] array) {
@@ -42,7 +49,7 @@ public class Main {
         return array[array.length - 1];
     }
 
-    private static Shape getMaxPerimetr(Shape[] array) {
+    private static Shape getMaxPerimeter(Shape[] array) {
         Arrays.sort(array, Square.perimetrComparator);
         return array[array.length - 2];
     }

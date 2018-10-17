@@ -65,4 +65,14 @@ public class Triangle implements Shape, Comparable<Shape> {
     public int hashCode() {
         return 37 * 3 + (int) (this.x1 + this.y1 + this.x2 + this.y2 + this.x3 + this.y3);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return this.toString().equals(o.toString());
+
+    }
 }

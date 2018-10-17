@@ -42,11 +42,21 @@ public class Square implements Shape, Comparable<Shape> {
 
     @Override
     public String toString() {
-        return "[Квадрата (" + this.side + ")]";
+        return "[Квадрат (" + this.side + ")]";
     }
 
     @Override
     public int hashCode() {
         return 37 * 3 + (int) this.side;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return this.toString().equals(o.toString());
+
     }
 }
