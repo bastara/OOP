@@ -3,14 +3,21 @@ package ru.academit.kolobov.shapes.Shapes;
 import java.util.Comparator;
 
 public class Rectangle implements Shape, Comparable<Shape> {
+    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
+
+        @Override
+        public int compare(Shape f1, Shape f2) {
+            return (int) (f1.getPerimeter() - f2.getPerimeter());
+        }
+    };
     private double side1;
     private double side2;
+
 
     public Rectangle(double side1, double side2) {
         this.side1 = side1;
         this.side2 = side2;
     }
-
 
     @Override
     public double getWidth() {
@@ -36,14 +43,6 @@ public class Rectangle implements Shape, Comparable<Shape> {
     public int compareTo(Shape f) {
         return (int) (this.getArea() - f.getArea());
     }
-
-    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
-
-        @Override
-        public int compare(Shape f1, Shape f2) {
-            return (int) (f1.getPerimeter() - f2.getPerimeter());
-        }
-    };
 
     @Override
     public String toString() {

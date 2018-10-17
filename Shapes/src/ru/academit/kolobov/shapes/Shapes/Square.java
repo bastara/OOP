@@ -3,6 +3,12 @@ package ru.academit.kolobov.shapes.Shapes;
 import java.util.Comparator;
 
 public class Square implements Shape, Comparable<Shape> {
+    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
+        @Override
+        public int compare(Shape f1, Shape f2) {
+            return (int) (f1.getPerimeter() - f2.getPerimeter());
+        }
+    };
     private double side;
 
     public Square(double side) {
@@ -34,13 +40,6 @@ public class Square implements Shape, Comparable<Shape> {
         return (int) (this.getArea() - f.getArea());
     }
 
-    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
-        @Override
-        public int compare(Shape f1, Shape f2) {
-            return (int) (f1.getPerimeter() - f2.getPerimeter());
-        }
-    };
-
     @Override
     public String toString() {
         return "[Квадрата (" + this.side + ")]";
@@ -48,6 +47,6 @@ public class Square implements Shape, Comparable<Shape> {
 
     @Override
     public int hashCode() {
-        return 37*3+(int) this.side;
+        return 37 * 3 + (int) this.side;
     }
 }
