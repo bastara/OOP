@@ -1,5 +1,7 @@
 package ru.academit.kolobov.shapes.Shapes;
 
+import java.util.Comparator;
+
 public class Circle implements Shape, Comparable<Shape> {
     private double radius;
 
@@ -31,6 +33,14 @@ public class Circle implements Shape, Comparable<Shape> {
     public int compareTo(Shape f) {
         return (int) (this.getArea() - f.getArea());
     }
+
+    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
+
+        @Override
+        public int compare(Shape f1, Shape f2) {
+            return (int) (f1.getPerimeter() - f2.getPerimeter());
+        }
+    };
 
     @Override
     public String toString() {

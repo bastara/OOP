@@ -23,24 +23,28 @@ public class Main {
 
         System.out.println("Площадь всех фигур =" + getSumArea(shapes));
 
-        getMaxArea(shapes);
-        System.out.println(Arrays.toString(shapes));
-        System.out.println(getMaxArea(shapes));
+        System.out.println("Фигура с максимальной площадью это " + getMaxArea(shapes));
+
+        System.out.println("Фигура со вторым по величине периметром это " + getMaxPerimetr(shapes));
     }
 
     private static int getSumArea(Shape[] array) {
         int result = 0;
-        for (Shape e : array) {
-            result += e.getArea();
-            System.out.println(e.toString() + " площадь " + e.getArea());
+        for (Shape s : array) {
+            result += s.getArea();
+            System.out.println(s.toString() + " площадь " + s.getArea());
         }
         return result;
     }
 
-
     private static Shape getMaxArea(Shape[] array) {
         Arrays.sort(array);
         return array[array.length - 1];
+    }
+
+    private static Shape getMaxPerimetr(Shape[] array) {
+        Arrays.sort(array, Square.perimetrComparator);
+        return array[array.length - 2];
     }
 }
 
