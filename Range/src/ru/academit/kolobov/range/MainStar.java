@@ -4,10 +4,10 @@ import ru.academit.kolobov.range.RangeClass.Range;
 
 public class MainStar {
     public static void main(String[] args) {
-        double point1Start = 1;
-        double point1End = 3;
-        double point2Start = 3;
-        double point2End = 5;
+        double point1Start = 5;
+        double point1End = 7;
+        double point2Start = 4;
+        double point2End = 9;
 
         Range interval1 = new Range(point1Start, point1End);
         Range interval2 = new Range(point2Start, point2End);
@@ -24,7 +24,7 @@ public class MainStar {
 
         Range interval3 = interval1.getIntervalIntersection(interval2);
         if (interval3 == null) {
-            System.out.println("null");
+            System.out.println("Интервал пересечения 1го и 2го интервалов: null");
         } else {
             System.out.println("Интервал пересечения 1го и 2го интервалов: " + interval3.getFrom() + "-" + interval3.getTo());
         }
@@ -37,14 +37,12 @@ public class MainStar {
         }
 
         array = interval1.getIntervalDifference(interval2);
-        if (array == null) {
-            System.out.println("null");
+        if (array.length == 0) {
+            System.out.println("Интервал разности 1го и 2го интервалов: null");
         } else if (array.length == 2) {
             System.out.println("Получены интервалы разности 1го и 2го интервалов: " + array[0].getFrom() + "-" + array[0].getTo() + " и " + array[1].getFrom() + "-" + array[1].getTo());
         } else if (array.length == 1) {
             System.out.println("Интервал разности 1го и 2го интервалов: " + array[0].getFrom() + "-" + array[0].getTo());
-        } else {
-            System.out.println("null");
         }
     }
 }

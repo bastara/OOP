@@ -34,14 +34,10 @@ public class Range {
     }
 
     public Range getIntervalIntersection(Range interval2) {
-        if (interval2.from > this.to || interval2.to < this.from) {
+        if (Math.max(this.from, interval2.from) - Math.min(this.to, interval2.to) >= 0) {
             return null;
         } else {
-            if (Math.max(this.from, interval2.from) - Math.min(this.to, interval2.to) == 0) {
-                return null;
-            } else {
-                return new Range(Math.max(this.from, interval2.from), Math.min(this.to, interval2.to));
-            }
+            return new Range(Math.max(this.from, interval2.from), Math.min(this.to, interval2.to));
         }
     }
 
