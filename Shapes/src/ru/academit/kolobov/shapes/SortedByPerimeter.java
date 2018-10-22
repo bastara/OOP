@@ -1,4 +1,6 @@
-package ru.academit.kolobov.shapes.Shapes;
+package ru.academit.kolobov.shapes;
+
+import ru.academit.kolobov.shapes.Shapes.Shape;
 
 import java.util.Comparator;
 
