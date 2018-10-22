@@ -1,14 +1,7 @@
 package ru.academit.kolobov.shapes.Shapes;
 
-import java.util.Comparator;
+public class Square implements Shape {
 
-public class Square implements Shape, Comparable<Shape> {
-    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
-        @Override
-        public int compare(Shape f1, Shape f2) {
-            return (int) (f1.getPerimeter() - f2.getPerimeter());
-        }
-    };
     private double side;
 
     public Square(double side) {
@@ -36,27 +29,29 @@ public class Square implements Shape, Comparable<Shape> {
     }
 
     @Override
-    public int compareTo(Shape f) {
-        return (int) (this.getArea() - f.getArea());
-    }
-
-    @Override
     public String toString() {
         return "[Квадрат (" + this.side + ")]";
     }
 
     @Override
     public int hashCode() {
-        return 37 * 3 + (int) this.side;
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(side);
+        return hash;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
 
-        return this.toString().equals(o.toString());
-
+        Square p = (Square) o;
+        return side == p.side;
     }
 }

@@ -1,15 +1,6 @@
 package ru.academit.kolobov.shapes.Shapes;
 
-import java.util.Comparator;
-
-public class Triangle implements Shape, Comparable<Shape> {
-    public static Comparator<Shape> perimetrComparator = new Comparator<Shape>() {
-
-        @Override
-        public int compare(Shape f1, Shape f2) {
-            return (int) (f1.getPerimeter() - f2.getPerimeter());
-        }
-    };
+public class Triangle implements Shape {
     private double x1;
     private double x2;
     private double x3;
@@ -52,27 +43,35 @@ public class Triangle implements Shape, Comparable<Shape> {
     }
 
     @Override
-    public int compareTo(Shape f) {
-        return (int) (this.getArea() - f.getArea());
-    }
-
-    @Override
     public String toString() {
         return "[Треугольник (" + this.x1 + "-" + this.y1 + "), (" + this.x2 + "-" + this.y2 + "), (" + this.x3 + "-" + this.y3 + ")]";
     }
 
     @Override
     public int hashCode() {
-        return 37 * 3 + (int) (this.x1 + this.y1 + this.x2 + this.y2 + this.x3 + this.y3);
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(x1);
+        hash = prime * hash + Double.hashCode(x2);
+        hash = prime * hash + Double.hashCode(x3);
+        hash = prime * hash + Double.hashCode(y1);
+        hash = prime * hash + Double.hashCode(y2);
+        hash = prime * hash + Double.hashCode(y3);
+        return hash;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
 
-        return this.toString().equals(o.toString());
-
+        Triangle p = (Triangle) o;
+        return x1 == p.x1 && x2 == p.x2 && x3 == p.x3 && y1 == p.y1 && y2 == p.y2 && y3 == p.y3;
     }
 }
+

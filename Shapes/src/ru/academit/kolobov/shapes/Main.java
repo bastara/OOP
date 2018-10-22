@@ -23,11 +23,22 @@ public class Main {
 
         System.out.println("Площадь всех фигур =" + getSumArea(shapes));
 
+        System.out.println();
         System.out.println("Фигура с максимальной площадью это " + getMaxArea(shapes));
+        System.out.println("Площади фигур:");
+        for (Shape s : shapes) {
+            System.out.println(s + "-" + s.getArea() + " кв.ед.");
+        }
 
+        System.out.println();
         System.out.println("Фигура со вторым по величине периметром это " + getMaxPerimeter(shapes));
+        System.out.println("Периметры фигур:");
+        for (Shape s : shapes) {
+            System.out.println(s + "-" + s.getPerimeter() + " ед.");
+        }
 
-        System.out.println(Arrays.toString(shapes));
+        System.out.println();
+        System.out.println("Сравниваем " + circle1.toString() + " и " + circle2.toString());
         if (circle1.equals(circle2)) {
             System.out.println("Фигуры одинаковы");
         } else {
@@ -39,19 +50,18 @@ public class Main {
         int result = 0;
         for (Shape s : array) {
             result += s.getArea();
-            System.out.println(s.toString() + " площадь " + s.getArea());
         }
         return result;
     }
 
     private static Shape getMaxArea(Shape[] array) {
-        Arrays.sort(array);
-        return array[array.length - 1];
+        Arrays.sort(array, new SortedByArea());
+        return array[0];
     }
 
     private static Shape getMaxPerimeter(Shape[] array) {
-        Arrays.sort(array, Square.perimetrComparator);
-        return array[array.length - 2];
+        Arrays.sort(array, new SortedByPerimeter());
+        return array[1];
     }
 }
 
