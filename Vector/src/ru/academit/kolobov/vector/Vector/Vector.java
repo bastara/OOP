@@ -5,10 +5,17 @@ public class Vector {
     private double[] array;
 
     public Vector(int n) {
-        dimension = n;
-        array = new double[n];
-        for (int i = 0; i < n; i++) {
-            array[i] = 0;
+        try {
+            if (n <= 0) {
+                throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
+            }
+            dimension = n;
+            array = new double[n];
+            for (int i = 0; i < n; i++) {
+                array[i] = 0;
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Размерность прстранства 0 или отрицательная");
         }
     }
 
@@ -86,9 +93,9 @@ public class Vector {
             arr[i] = this.array[i] + v2.array[i];
         }
         if (b) {
-            if (nMax - nMin >= 0) System.arraycopy(this.array, nMin, arr, nMin, nMax - nMin);
+            System.arraycopy(this.array, nMin, arr, nMin, nMax - nMin);
         } else {
-            if (nMax - nMin >= 0) System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
+            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
         }
         return new Vector(nMax, arr);
     }
@@ -134,9 +141,9 @@ public class Vector {
             arr[i] = this.array[i] - v2.array[i];
         }
         if (b) {
-            if (nMax - nMin >= 0) System.arraycopy(this.array, nMin, arr, nMin, nMax - nMin);
+            System.arraycopy(this.array, nMin, arr, nMin, nMax - nMin);
         } else {
-            if (nMax - nMin >= 0) System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
+            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
         }
         return new Vector(nMax, arr);
     }

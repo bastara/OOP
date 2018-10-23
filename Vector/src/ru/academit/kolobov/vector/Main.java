@@ -8,17 +8,18 @@ public class Main {
         Vector v1 = new Vector(c1);
         double[] c2 = {3, -7, 2, -4};
         Vector v2 = new Vector(c2);
-        Vector v3 = new Vector(v1);
         double[] c5 = {1, -4, 1, 1};
         Vector v4 = new Vector(5, c1);
         Vector v5 = new Vector(c5);
 
+        Vector v0 = new Vector(-3);
 
         System.out.println("Размер вектора v1: " + v1.getSize());
-        System.out.println("Размер вектора v5: " + v4.getSize());
 
+        System.out.println("Копируем вектрор v1 в v3");
+        Vector v3 = new Vector(v1);
         System.out.println("Координаты вектора v3:" + v3.toString());
-        System.out.println("Координаты вектора v4:" + v4.toString());
+        System.out.println("Координаты вектора v4(конструктор new Vector(5, c1)):" + v4.toString());
 
         Vector v6 = v1.addVector(v5);
         System.out.println("Координаты вектора v6(сложение v1 и v5):" + v6.toString());
@@ -34,7 +35,7 @@ public class Main {
         System.out.println("Длина вектора v8: " + v8.lengthVector());
 
         System.out.println("3 элемент вектора v5 равен: " + v5.getElementVector(3));
-
+        System.out.println("3 элемент вектора v5 меняем на 8");
         v5.setElementVector(3, 8);
         System.out.println("3 элемент вектора v5 равен: " + v5.getElementVector(3));
 
