@@ -17,7 +17,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private static double getLengthSide(double x1, double y1, double x2, double y2) {//надо сделать статик т.к. не работает с полями.
+    private static double getSideLength(double x1, double y1, double x2, double y2) {//надо сделать статик т.к. не работает с полями.
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));   //static функции рекомендуется всегда вызывать через имя класса: A.f();
     }
 
@@ -33,13 +33,13 @@ public class Triangle implements Shape {
 
     @Override
     public double getArea() {
-        double halfPerimetr = getPerimeter() / 2;
-        return Math.sqrt(halfPerimetr * (halfPerimetr - getLengthSide(x1, y1, x2, y2)) * (halfPerimetr - getLengthSide(x2, y2, x3, y3)) * (halfPerimetr - getLengthSide(x3, y3, x1, y1)));
+        double halfPerimeter = getPerimeter() / 2;
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getSideLength(x1, y1, x2, y2)) * (halfPerimeter - getSideLength(x2, y2, x3, y3)) * (halfPerimeter - getSideLength(x3, y3, x1, y1)));
     }
 
     @Override
     public double getPerimeter() {
-        return getLengthSide(x1, y1, x2, y2) + getLengthSide(x2, y2, x3, y3) + getLengthSide(x3, y3, x1, y1);
+        return getSideLength(x1, y1, x2, y2) + getSideLength(x2, y2, x3, y3) + getSideLength(x3, y3, x1, y1);
     }
 
     @Override

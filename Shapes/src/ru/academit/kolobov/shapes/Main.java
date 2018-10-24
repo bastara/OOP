@@ -27,14 +27,14 @@ public class Main {
         System.out.println("Фигура с максимальной площадью это " + getMaxArea(shapes));
         System.out.println("Площади фигур:");
         for (Shape s : shapes) {
-            System.out.println(s + "-" + s.getArea() + " кв.ед.");
+            System.out.println(s + ": " + s.getArea() + " кв.ед.");
         }
 
         System.out.println();
-        System.out.println("Фигура со вторым по величине периметром это " + getMaxPerimeter(shapes));
+        System.out.println("Фигура со вторым по величине периметром это " + getSecondByPerimeter(shapes));
         System.out.println("Периметры фигур:");
         for (Shape s : shapes) {
-            System.out.println(s + "-" + s.getPerimeter() + " ед.");
+            System.out.println(s + ": " + s.getPerimeter() + " ед.");
         }
 
         System.out.println();
@@ -55,12 +55,12 @@ public class Main {
     }
 
     private static Shape getMaxArea(Shape[] array) {
-        Arrays.sort(array, new SortedByArea());
+        Arrays.sort(array, new areaComparator());
         return array[0];
     }
 
-    private static Shape getMaxPerimeter(Shape[] array) {
-        Arrays.sort(array, new SortedByPerimeter());
+    private static Shape getSecondByPerimeter(Shape[] array) {
+        Arrays.sort(array, new perimeterComparator());
         return array[1];
     }
 }
