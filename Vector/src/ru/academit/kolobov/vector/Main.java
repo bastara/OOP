@@ -13,6 +13,7 @@ public class Main {
         Vector v5 = new Vector(c5);
 
         Vector v0 = new Vector(-3);
+        System.out.println("Размер вектора v0: " + v0.getSize());
 
         System.out.println("Размер вектора v1: " + v1.getSize());
 
@@ -24,7 +25,7 @@ public class Main {
         Vector v6 = v1.addVector(v5);
         System.out.println("Координаты вектора v6(сложение v1 и v5):" + v6.toString());
 
-        Vector v7 = v4.substractinonVector(v6);
+        Vector v7 = v4.subtractionVector(v6);
         System.out.println("Координаты вектора v7(вычитание из v4 вектора v6): " + v7.toString());
 
         v7.invertVector();
@@ -57,11 +58,11 @@ public class Main {
         }
 
         System.out.println("Сложение векторов v4 и v6:");
-        Vector v10 = Vector.sum(v4, v6);
+        Vector v10 = Vector.sumVector(v4, v6);
         System.out.println("Координаты вектора v10:" + v10.toString());
 
         System.out.println("Вычитание из v4 вектора v6:");
-        Vector v11 = Vector.dif(v4, v6);
+        Vector v11 = Vector.difVector(v4, v6);
         System.out.println("Координаты вектора v11:" + v11.toString());
 
         System.out.println("Скалярное произведение векторов v5 и v8 будет: " + Vector.scalarVector(v5, v8));

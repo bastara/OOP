@@ -16,6 +16,8 @@ public class Vector {
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Размерность прстранства 0 или отрицательная");
+            dimension = 0;
+            array = new double[dimension];
         }
     }
 
@@ -28,7 +30,7 @@ public class Vector {
     public Vector(double[] a) {
         array = new double[a.length];
         dimension = a.length;
-        if (dimension >= 0) System.arraycopy(a, 0, array, 0, dimension);
+        if (dimension >= 0) System.arraycopy(a, 0, array, 0, dimension);//вижу варнинги, лучше исправлять или не стоит?
     }
 
     public Vector(int n, double[] a) {
@@ -100,7 +102,7 @@ public class Vector {
         return new Vector(nMax, arr);
     }
 
-    public static Vector sum(Vector v1, Vector v2) {
+    public static Vector sumVector(Vector v1, Vector v2) {
         boolean b = v1.array.length > v2.array.length;
         int nMax = Math.max(v1.array.length, v2.array.length);
         int nMin = Math.min(v1.array.length, v2.array.length);
@@ -116,7 +118,7 @@ public class Vector {
         return new Vector(nMax, arr);
     }
 
-    public static Vector dif(Vector v1, Vector v2) {
+    public static Vector difVector(Vector v1, Vector v2) {
         boolean b = v1.array.length > v2.array.length;
         int nMax = Math.max(v1.array.length, v2.array.length);
         int nMin = Math.min(v1.array.length, v2.array.length);
@@ -132,7 +134,7 @@ public class Vector {
         return new Vector(nMax, arr);
     }
 
-    public Vector substractinonVector(Vector v2) {
+    public Vector subtractionVector(Vector v2) {
         boolean b = this.array.length > v2.array.length;
         int nMax = Math.max(this.array.length, v2.array.length);
         int nMin = Math.min(this.array.length, v2.array.length);
