@@ -34,7 +34,7 @@ public class Range {
     }
 
     public Range getIntervalIntersection(Range interval2) {
-        if (Math.max(this.from, interval2.from) - Math.min(this.to, interval2.to) >= 0) {
+        if (Math.max(this.from, interval2.from) >= Math.min(this.to, interval2.to)) {
             return null;
         } else {
             return new Range(Math.max(this.from, interval2.from), Math.min(this.to, interval2.to));
@@ -50,7 +50,7 @@ public class Range {
     }
 
     public Range[] getIntervalDifference(Range interval2) {
-        if (interval2.from > this.to || interval2.to < this.from) {
+        if (interval2.from >= this.to || interval2.to <= this.from) {
             return new Range[]{new Range(this.from, this.to)};
         } else {
             if ((interval2.from > this.from)) {

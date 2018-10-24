@@ -6,8 +6,8 @@ public class MainStar {
     public static void main(String[] args) {
         double point1Start = 5;
         double point1End = 7;
-        double point2Start = 4;
-        double point2End = 9;
+        double point2Start = 1;
+        double point2End = 5;
 
         Range interval1 = new Range(point1Start, point1End);
         Range interval2 = new Range(point2Start, point2End);
