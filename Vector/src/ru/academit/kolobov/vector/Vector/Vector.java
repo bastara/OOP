@@ -46,6 +46,10 @@ public class Vector {
         return dimension;
     }
 
+    public double[] getArray() {
+        return array;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("{");
