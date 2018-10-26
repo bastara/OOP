@@ -42,6 +42,47 @@ public class Vector {
         }
     }
 
+    public static Vector sumVector(Vector v1, Vector v2) {
+        boolean b = v1.array.length > v2.array.length;
+        int nMax = Math.max(v1.array.length, v2.array.length);
+        int nMin = Math.min(v1.array.length, v2.array.length);
+        double[] arr = new double[nMax];
+        for (int i = 0; i < nMin; i++) {
+            arr[i] = v1.array[i] + v2.array[i];
+        }
+        if (b) {
+            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
+        } else {
+            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
+        }
+        return new Vector(nMax, arr);
+    }
+
+    public static Vector difVector(Vector v1, Vector v2) {
+        boolean b = v1.array.length > v2.array.length;
+        int nMax = Math.max(v1.array.length, v2.array.length);
+        int nMin = Math.min(v1.array.length, v2.array.length);
+        double[] arr = new double[nMax];
+        for (int i = 0; i < nMin; i++) {
+            arr[i] = v1.array[i] - v2.array[i];
+        }
+        if (b) {
+            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
+        } else {
+            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
+        }
+        return new Vector(nMax, arr);
+    }
+
+    public static double scalarVector(Vector v1, Vector v2) {
+        int nMin = Math.min(v1.array.length, v2.array.length);
+        double scalar = 0;
+        for (int i = 0; i < nMin; i++) {
+            scalar += v1.array[i] * v2.array[i];
+        }
+        return scalar;
+    }
+
     public int getSize() {
         return dimension;
     }
@@ -89,7 +130,6 @@ public class Vector {
         return dimension == p.dimension;
     }
 
-
     public Vector addVector(Vector v2) {
         boolean b = this.array.length > v2.array.length;
         int nMax = Math.max(this.array.length, v2.array.length);
@@ -100,38 +140,6 @@ public class Vector {
         }
         if (b) {
             System.arraycopy(this.array, nMin, arr, nMin, nMax - nMin);
-        } else {
-            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
-        }
-        return new Vector(nMax, arr);
-    }
-
-    public static Vector sumVector(Vector v1, Vector v2) {
-        boolean b = v1.array.length > v2.array.length;
-        int nMax = Math.max(v1.array.length, v2.array.length);
-        int nMin = Math.min(v1.array.length, v2.array.length);
-        double[] arr = new double[nMax];
-        for (int i = 0; i < nMin; i++) {
-            arr[i] = v1.array[i] + v2.array[i];
-        }
-        if (b) {
-            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
-        } else {
-            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
-        }
-        return new Vector(nMax, arr);
-    }
-
-    public static Vector difVector(Vector v1, Vector v2) {
-        boolean b = v1.array.length > v2.array.length;
-        int nMax = Math.max(v1.array.length, v2.array.length);
-        int nMin = Math.min(v1.array.length, v2.array.length);
-        double[] arr = new double[nMax];
-        for (int i = 0; i < nMin; i++) {
-            arr[i] = v1.array[i] - v2.array[i];
-        }
-        if (b) {
-            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
         } else {
             System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
         }
@@ -174,15 +182,6 @@ public class Vector {
 
     public void setElementVector(int e, double c) {
         this.array[e] = c;
-    }
-
-    public static double scalarVector(Vector v1, Vector v2) {
-        int nMin = Math.min(v1.array.length, v2.array.length);
-        double scalar = 0;
-        for (int i = 0; i < nMin; i++) {
-            scalar += v1.array[i] * v2.array[i];
-        }
-        return scalar;
     }
 }
 

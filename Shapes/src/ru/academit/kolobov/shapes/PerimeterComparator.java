@@ -8,6 +8,6 @@ public class PerimeterComparator implements Comparator<Shape> {
 
     @Override
     public int compare(Shape f1, Shape f2) {
-        return Double.compare(f2.getPerimeter(),f1.getPerimeter());
+        return Double.compare(f2.getPerimeter(), f1.getPerimeter());
     }
 }

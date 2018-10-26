@@ -21,10 +21,10 @@ public class Main {
 
         Shape[] shapes = {rectangle1, rectangle2, rectangle3, square1, square2, triangle1, triangle2, circle1, circle2};
 
-        System.out.println("Площадь всех фигур =" + getAreaAllShapes(shapes));
+        System.out.println("Площадь всех фигур =" + getSumArea(shapes));
 
         System.out.println();
-        System.out.println("Фигура с максимальной площадью это " + getMaxArea(shapes));
+        System.out.println("Фигура с максимальной площадью это " + getFirstByArea(shapes));
         System.out.println("Площади фигур:");
         for (Shape s : shapes) {
             System.out.println(s + ": " + s.getArea() + " кв.ед.");
@@ -46,7 +46,7 @@ public class Main {
         }
     }
 
-    private static int getAreaAllShapes(Shape[] array) {
+    private static int getSumArea(Shape[] array) {
         int result = 0;
         for (Shape s : array) {
             result += s.getArea();
@@ -54,7 +54,7 @@ public class Main {
         return result;
     }
 
-    private static Shape getMaxArea(Shape[] array) {
+    private static Shape getFirstByArea(Shape[] array) {
         Arrays.sort(array, new AreaComparator());
         return array[0];
     }

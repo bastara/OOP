@@ -5,10 +5,6 @@ import ru.academit.kolobov.vector.Vector.Vector;
 public class Matrix {
     private double[][] array;
 
-    public double[][] getArray() {
-        return array;
-    }
-
     public Matrix(Vector[] vectors) {
         //помню что у меня была еще переменная dimension, тут я ее упускаю. Может в векторе ее тоже убрать и размер брать от длинны? Или оставить и разместить например в [0] индексе?
         int y = vectors.length;
@@ -50,6 +46,10 @@ public class Matrix {
                 array[i][j] = a[i][j];
             }
         }
+    }
+
+    public double[][] getArray() {
+        return array;
     }
 
     public int getSizeX(Matrix matrix) {
