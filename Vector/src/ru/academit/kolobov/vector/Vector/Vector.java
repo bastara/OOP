@@ -1,42 +1,36 @@
 package ru.academit.kolobov.vector.Vector;
 
+import java.util.Arrays;
+
 public class Vector {
-    private int dimension;
     private double[] array;
 
     public Vector(int n) {
-        try {
-            if (n <= 0) {
-                throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
-            }
-            dimension = n;
-            array = new double[n];
-            for (int i = 0; i < n; i++) {
-                array[i] = 0;
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println("Размерность прстранства 0 или отрицательная");
-            dimension = 0;
-            array = new double[dimension];
+        if (n <= 0) {
+            throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
         }
+        array = new double[n];
     }
 
     public Vector(Vector vector) {
-        dimension = vector.dimension;
         array = new double[vector.array.length];
-        if (dimension >= 0) System.arraycopy(vector.array, 0, array, 0, dimension);
+        if (vector.array.length >= 0) {
+            System.arraycopy(vector.array, 0, array, 0, vector.array.length);
+        }
     }
 
     public Vector(double[] a) {
         array = new double[a.length];
-        dimension = a.length;
-        if (dimension >= 0) System.arraycopy(a, 0, array, 0, dimension);//вижу варнинги, лучше исправлять или не стоит?
+        if (a.length >= 0) {
+            System.arraycopy(a, 0, array, 0, a.length);//вижу варнинги, лучше исправлять или не стоит?
+        }
     }
 
     public Vector(int n, double[] a) {
         array = new double[n];
-        dimension = n;
-        if (a.length >= 0) System.arraycopy(a, 0, array, 0, a.length);
+        if (a.length >= 0) {
+            System.arraycopy(a, 0, array, 0, a.length);
+        }
         for (int i = a.length; i < n; i++) {
             array[i] = 0;
         }
@@ -84,7 +78,7 @@ public class Vector {
     }
 
     public int getSize() {
-        return dimension;
+        return array.length;
     }
 
     public double[] getArray() {
@@ -93,22 +87,16 @@ public class Vector {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder("{");
+        String str = "{";
         for (int i = 0; i < array.length - 1; i++) {
-            str.append(array[i]).append(", ");
+            str += array[i] + ", ";
         }
-        return str.toString() + array[array.length - 1] + "}";
+        return str + array[array.length - 1] + "}";
     }
 
     @Override
     public int hashCode() {
-        final int prime = 37;
-        int hash = 1;
-        hash = prime * hash + dimension;
-        for (double c : array) {
-            hash = prime * hash + Double.hashCode(c);
-        }
-        return hash;
+        return Arrays.hashCode(array);
     }
 
     @Override
@@ -122,12 +110,10 @@ public class Vector {
         }
 
         Vector p = (Vector) o;
-        for (int i = 0; i < p.array.length; i++) {
-            if (array[i] != p.array[i]) {
-                return false;
-            }
+        if (!Arrays.equals(this.array, p.array)) {
+            return false;
         }
-        return dimension == p.dimension;
+        return array.length == p.array.length;// я так понимаю что размерность массивов проверится ранее и данной проверке нет необходимости, но т.к. стоит в условии задачи то оставил.
     }
 
     public Vector addVector(Vector v2) {
@@ -168,7 +154,7 @@ public class Vector {
         }
     }
 
-    public double lengthVector() {
+    public double getLength() {
         double sum = 0;
         for (double c : this.array) {
             sum += c * c;
@@ -176,12 +162,18 @@ public class Vector {
         return Math.sqrt(sum);
     }
 
-    public double getElementVector(int e) {
-        return this.array[e];
+    public double getElementVector(int index) {
+        return this.array[index];
     }
 
-    public void setElementVector(int e, double c) {
-        this.array[e] = c;
+    public void setElementVector(int index, double c) {
+        this.array[index] = c;
+    }
+
+    public void getMultiplicationVectorByScalar(int i) {
+        for (int j = 0; j < array.length; j++) {
+            array[j] *= i;
+        }
     }
 }
 
