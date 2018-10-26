@@ -14,58 +14,38 @@ public class Vector {
 
     public Vector(Vector vector) {
         array = new double[vector.array.length];
-        if (vector.array.length >= 0) {
-            System.arraycopy(vector.array, 0, array, 0, vector.array.length);
-        }
+        array = Arrays.copyOf(vector.array, vector.array.length);
     }
 
     public Vector(double[] a) {
-        array = new double[a.length];
-        if (a.length >= 0) {
-            System.arraycopy(a, 0, array, 0, a.length);//вижу варнинги, лучше исправлять или не стоит?
+        if (a.length == 0) {
+            throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
         }
+        array = new double[a.length];
+        array = Arrays.copyOf(a, a.length);
     }
 
     public Vector(int n, double[] a) {
+        if (a.length == 0 || n == 0) {
+            throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
+        }
         array = new double[n];
-        if (a.length >= 0) {
-            System.arraycopy(a, 0, array, 0, a.length);
-        }
-        for (int i = a.length; i < n; i++) {
-            array[i] = 0;
-        }
+        System.arraycopy(a, 0, array, 0, a.length);
+//            array = Arrays.copyOf(a, a.length);
+        // почему то не могу это использовать, вроде и созадется массив на 5 элементов, но потом они пропадают...
     }
 
     public static Vector sumVector(Vector v1, Vector v2) {
-        boolean b = v1.array.length > v2.array.length;
-        int nMax = Math.max(v1.array.length, v2.array.length);
-        int nMin = Math.min(v1.array.length, v2.array.length);
-        double[] arr = new double[nMax];
-        for (int i = 0; i < nMin; i++) {
-            arr[i] = v1.array[i] + v2.array[i];
-        }
-        if (b) {
-            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
-        } else {
-            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
-        }
-        return new Vector(nMax, arr);
+        Vector v = new Vector(1);
+        v.addVector(v1);
+        v.addVector(v2);
+        return v;
     }
 
     public static Vector difVector(Vector v1, Vector v2) {
-        boolean b = v1.array.length > v2.array.length;
-        int nMax = Math.max(v1.array.length, v2.array.length);
-        int nMin = Math.min(v1.array.length, v2.array.length);
-        double[] arr = new double[nMax];
-        for (int i = 0; i < nMin; i++) {
-            arr[i] = v1.array[i] - v2.array[i];
-        }
-        if (b) {
-            System.arraycopy(v1.array, nMin, arr, nMin, nMax - nMin);
-        } else {
-            System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
-        }
-        return new Vector(nMax, arr);
+        Vector v = v1;
+        v.subtractionVector(v2);
+        return v;
     }
 
     public static double scalarVector(Vector v1, Vector v2) {
@@ -116,7 +96,7 @@ public class Vector {
         return array.length == p.array.length;// я так понимаю что размерность массивов проверится ранее и данной проверке нет необходимости, но т.к. стоит в условии задачи то оставил.
     }
 
-    public Vector addVector(Vector v2) {
+    public void addVector(Vector v2) {
         boolean b = this.array.length > v2.array.length;
         int nMax = Math.max(this.array.length, v2.array.length);
         int nMin = Math.min(this.array.length, v2.array.length);
@@ -129,10 +109,10 @@ public class Vector {
         } else {
             System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
         }
-        return new Vector(nMax, arr);
+        this.array = arr;
     }
 
-    public Vector subtractionVector(Vector v2) {
+    public void subtractionVector(Vector v2) {
         boolean b = this.array.length > v2.array.length;
         int nMax = Math.max(this.array.length, v2.array.length);
         int nMin = Math.min(this.array.length, v2.array.length);
@@ -145,7 +125,7 @@ public class Vector {
         } else {
             System.arraycopy(v2.array, nMin, arr, nMin, nMax - nMin);
         }
-        return new Vector(nMax, arr);
+        this.array = arr;
     }
 
     public void invertVector() {
