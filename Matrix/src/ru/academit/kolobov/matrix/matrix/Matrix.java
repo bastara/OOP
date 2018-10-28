@@ -25,9 +25,10 @@ public class Matrix {
         int x = matrix.array[0].length;
         array = new double[y][x];
         for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                array[i][j] = matrix.array[i][j];
-            }
+//            for (int j = 0; j < x; j++) {
+//                array[i][j] = matrix.array[i][j];
+//            }
+            System.arraycopy(matrix.array[i], 0, array[i], 0, x);
         }
     }
 
@@ -36,9 +37,10 @@ public class Matrix {
         int x = a[0].length;
         array = new double[y][x];
         for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                array[i][j] = a[i][j];
-            }
+//            for (int j = 0; j < x; j++) {
+//                array[i][j] = a[i][j];
+//            }
+            System.arraycopy(a[i], 0, array[i], 0, x);
         }
     }
 
