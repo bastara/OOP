@@ -25,9 +25,6 @@ public class Matrix {
         int x = matrix.array[0].length;
         array = new double[y][x];
         for (int i = 0; i < y; i++) {
-//            for (int j = 0; j < x; j++) {
-//                array[i][j] = matrix.array[i][j];
-//            }
             System.arraycopy(matrix.array[i], 0, array[i], 0, x);
         }
     }
@@ -37,9 +34,6 @@ public class Matrix {
         int x = a[0].length;
         array = new double[y][x];
         for (int i = 0; i < y; i++) {
-//            for (int j = 0; j < x; j++) {
-//                array[i][j] = a[i][j];
-//            }
             System.arraycopy(a[i], 0, array[i], 0, x);
         }
     }
@@ -53,6 +47,10 @@ public class Matrix {
     }
 
     public Vector getVector(int i) {
+        if (i > array.length-1) {
+            System.out.println("Индекс вектора больше длины матрицы!");
+            return null;
+        }
         return new Vector(array[i]);
     }
 
@@ -110,22 +108,8 @@ public class Matrix {
         }
 
         if (x == 2) {
-            System.out.println("XXX");
-            System.out.println(array[0][0] * array[1][1] - array[0][1] * array[1][0]);
             return array[0][0] * array[1][1] - array[0][1] * array[1][0];
         }
-
-        System.out.println();
-
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < x; j++) {
-                System.out.printf("%8.2f", array[i][j]);
-
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
 
         if (array[0][0] == 0) {
             int notZeroFirstPosRow = 0;
@@ -144,18 +128,7 @@ public class Matrix {
                     array[0][i] += array[notZeroFirstPosRow][i];
                 }
             }
-
-            for (int i = 0; i < x; i++) {
-                for (int j = 0; j < x; j++) {
-                    System.out.printf("%8.2f", array[i][j]);
-
-                }
-                System.out.println();
-            }
-            System.out.println();
-            System.out.println();
         }
-
 
         for (int j = 1; j < y; j++) {
             double rowRatio = -array[j][0] / array[0][0];
@@ -168,28 +141,87 @@ public class Matrix {
             }
         }
 
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < x; j++) {
-                System.out.printf("%8.2f", array[i][j]);
-            }
-            System.out.println();
-        }
-
-
-        System.out.println();
-
         double[][] arrayTmp = new double[y - 1][x - 1];
         for (int j = 0; j < y - 1; j++) {
             for (int i = 0; i < x - 1; i++) {
                 arrayTmp[j][i] = array[j + 1][i + 1];
-                System.out.printf("%8.2f", arrayTmp[j][i]);
             }
-            System.out.println();
         }
-        System.out.println("__________________________________________________");
         Matrix m = new Matrix(arrayTmp);
         //как сделать так что бы в методе -0 менялся на 0???
         return array[0][0] * m.determinant();
     }
-}
 
+    public void multiplicationByVector(Vector v2) {
+        int y = array.length;
+        int x = array[0].length;
+        if (y != v2.getSize()) {
+            System.out.println("Длина вектора должна быть равна числу строк в матрице!");
+            return;
+        }
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x; i++) {
+                array[j][i] *= v2.getElement(i);
+            }
+        }
+    }
+
+    public void addMatrix(Matrix m1) {
+        int y = array.length;
+        int x = array[0].length;
+        int y1 = m1.array.length;
+        int x1 = m1.array[0].length;
+        if (y != y1 || x != x1) {
+            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
+        }
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x; i++) {
+                array[j][i] += m1.array[j][i];
+            }
+        }
+    }
+
+    public static Matrix matrixAddition(Matrix m, Matrix m1) {
+        m.addMatrix(m1);
+        return m;
+    }
+
+    public void difMatrix(Matrix m1) {
+        int y = array.length;
+        int x = array[0].length;
+        int y1 = m1.array.length;
+        int x1 = m1.array[0].length;
+        if (y != y1 || x != x1) {
+            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
+        }
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x; i++) {
+                array[j][i] -= m1.array[j][i];
+            }
+        }
+    }
+
+    public static Matrix subtractMatrix(Matrix m1, Matrix m) {
+    m1.difMatrix(m);
+        return m1;
+    }
+
+    public static Matrix matrixMultiplication(Matrix m, Matrix m1) {
+        int y = m.array.length;
+        int x = m.array[0].length;
+        int y1 = m1.array.length;
+        int x1 = m1.array[0].length;
+        if (y != x1) {
+            throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
+        }
+        double[][] tmpArray = new double[y][x1];
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x1; i++) {
+                for (int k = 0; k < x; k++) {
+                        tmpArray[j][i] += m.array[j][k] * m1.array[k][i];
+                }
+            }
+        }
+        return new Matrix(tmpArray);
+    }
+}
