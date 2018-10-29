@@ -5,54 +5,6 @@ import ru.academit.kolobov.vector.Vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
-        //прямоугольная матрица
-//        double[] c1 = {2, 5, 6, 3};
-//        Vector v1 = new Vector(c1);
-//        double[] c2 = {4, -7, -8, 4};
-//        Vector v2 = new Vector(c2);
-//        double[] c3 = {-6, 12, 3, 5};
-//        Vector v3 = new Vector(c3);
-
-//квадратная матрица 5*5
-//        double[] c1 = {0, 3, -1, 2, 6};
-//        Vector v1 = new Vector(c1);
-//        double[] c2 = {2, 1, 0, 0, 3};
-//        Vector v2 = new Vector(c2);
-//        double[] c3 = {-2, -1, 0, 2, 5};
-//        Vector v3 = new Vector(c3);
-//        double[] c4 = {-5, 7, 1, 1, 1};
-//        Vector v4 = new Vector(c4);
-//        double[] c5 = {2, 0, 2, -2, 1};
-//        Vector v5 = new Vector(c5);
-
-//квадратная матрица 6*6
-//        double[] c1 = {1, 3, -2, 0, 0, 1};
-//        Vector v1 = new Vector(c1);
-//        double[] c2 = {2, 0, 2, 5, 3, -1};
-//        Vector v2 = new Vector(c2);
-//        double[] c3 = {0, -3, 6, 2, -7, 0};
-//        Vector v3 = new Vector(c3);
-//        double[] c4 = {-3, 6, -4, -5, 0, 2};
-//        Vector v4 = new Vector(c4);
-//        double[] c5 = {3, 15, -4, 2, -4, 5};
-//        Vector v5 = new Vector(c5);
-//        double[] c6 = {2, 7, -7, -2, 0, 3};
-//        Vector v6 = new Vector(c6);
-//
-//        Vector[] arrayV = {v1, v2, v3, v4, v5, v6};
-
-//квадратная матрица 4*4
-//        double[] c1 = {2, 4, 1, 1};
-//        Vector v1 = new Vector(c1);
-//        double[] c2 = {0, 2, 0, 0};
-//        Vector v2 = new Vector(c2);
-//        double[] c3 = {2, 1, 1, 3};
-//        Vector v3 = new Vector(c3);
-//        double[] c4 = {4, 0, 2, 3};
-//        Vector v4 = new Vector(c4);
-//        Vector[] arrayV = {v1, v2, v3, v4};
-
-//квадратная матрица 3*3
         double[] c1 = {2, 4, 1};
         Vector v1 = new Vector(c1);
         double[] c2 = {0, 2, 1};
@@ -84,24 +36,6 @@ public class Main {
             System.out.println("EXCEPTIONS! Размер массив 0 или отрицательный. Матрица не создана");
             System.out.println();
         }
-
-
-        //матрицы для умножения
-//        double[] c1 = {2, 1};
-//        Vector v1 = new Vector(c1);
-//        double[] c2 = {-3, 0};
-//        Vector v2 = new Vector(c2);
-//        double[] c3 = {4, -1};
-//        Vector v3 = new Vector(c3);
-//        Vector[] arrayV = {v1, v2, v3};
-//        Matrix m = new Matrix(arrayV);
-//
-//        double[] c4 = {5, -1, 6};
-//        Vector v4 = new Vector(c4);
-//        double[] c5 = {-3, 0, 7};
-//        Vector v5 = new Vector(c5);
-//        Vector[] arrayV1 = {v4, v5};
-//        Matrix m10 = new Matrix(arrayV1);
 
         //копируем матрицу m
         Matrix m1 = new Matrix(m);
@@ -147,7 +81,7 @@ public class Main {
 
         //умножение матрицы на вектор
         System.out.println("Умножение матрицы m на вектор v2");
-        System.out.println("Векторо v2:" + v2);
+        System.out.println("Вектор v2:" + v2);
         System.out.println("Матрица m: " + m);
         m.multiplicationByVector(v2);
         System.out.println("Результат m: " + m);
@@ -178,7 +112,7 @@ public class Main {
         }
 
         //Сложение матриц static
-        System.out.println("Сложение матриц m и m10");
+        System.out.println("Сложение матриц m и m10 (static)");
         System.out.println("Матрица m: " + m);
         System.out.println("Матрица m10: " + m10);
         Matrix m11 = Matrix.additionMatrix(m, m10);
@@ -186,7 +120,7 @@ public class Main {
         System.out.println();
 
         //Вычитание матриц static
-        System.out.println("Вычитание матриц m10 и m");
+        System.out.println("Вычитание матриц m10 и m (static)");
         System.out.println("Матрица m10: " + m10);
         System.out.println("Матрица m: " + m);
         Matrix m12 = Matrix.subtractMatrix(m10, m);
