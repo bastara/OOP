@@ -2,6 +2,8 @@ package ru.academit.kolobov.matrix.matrix;
 
 import ru.academit.kolobov.vector.Vector.Vector;
 
+import java.util.Arrays;
+
 public class Matrix {
     private double[][] array;
 
@@ -17,6 +19,9 @@ public class Matrix {
     }
 
     public Matrix(int n, int m) {
+        if (n <= 0 || m <= 0) {
+            throw new IllegalArgumentException("Размер массив 0 или отрицательный");
+        }
         array = new double[n][m];
     }
 
@@ -32,6 +37,9 @@ public class Matrix {
     public Matrix(double[][] a) {
         int y = a.length;
         int x = a[0].length;
+        if (x <= 0 || y <= 0) {
+            throw new IllegalArgumentException("Размер массив 0 или отрицательный");
+        }
         array = new double[y][x];
         for (int i = 0; i < y; i++) {
             System.arraycopy(a[i], 0, array[i], 0, x);
@@ -47,28 +55,16 @@ public class Matrix {
     }
 
     public Vector getVector(int i) {
-        if (i > array.length-1) {
+        if (i > array.length - 1) {
             System.out.println("Индекс вектора больше длины матрицы!");
             return null;
         }
         return new Vector(array[i]);
     }
 
-    @Override
+    @Override//ну и хитренькие же вы!!!
     public String toString() {
-        StringBuilder str = new StringBuilder("{");
-        for (int i = 0; i < array.length; i++) {
-            if (i > 0) {
-                str.append(",");
-            }
-            str.append("{");
-            for (int j = 0; j < array[0].length - 1; j++) {
-                str.append(array[i][j]).append(", ");
-            }
-            str.append(array[i][array[0].length - 1]).append("}");
-        }
-        str.append("}");
-        return str.toString();
+        return Arrays.deepToString(array).replaceAll("\\[", "{").replaceAll("]", "}");
     }
 
     public Matrix getTransposition() {
@@ -143,9 +139,7 @@ public class Matrix {
 
         double[][] arrayTmp = new double[y - 1][x - 1];
         for (int j = 0; j < y - 1; j++) {
-            for (int i = 0; i < x - 1; i++) {
-                arrayTmp[j][i] = array[j + 1][i + 1];
-            }
+            System.arraycopy(array[j + 1], 1, arrayTmp[j], 0, x - 1);
         }
         Matrix m = new Matrix(arrayTmp);
         //как сделать так что бы в методе -0 менялся на 0???
@@ -181,11 +175,6 @@ public class Matrix {
         }
     }
 
-    public static Matrix matrixAddition(Matrix m, Matrix m1) {
-        m.addMatrix(m1);
-        return m;
-    }
-
     public void difMatrix(Matrix m1) {
         int y = array.length;
         int x = array[0].length;
@@ -201,15 +190,21 @@ public class Matrix {
         }
     }
 
-    public static Matrix subtractMatrix(Matrix m1, Matrix m) {
-    m1.difMatrix(m);
-        return m1;
+    public static Matrix additionMatrix(Matrix m1, Matrix m2) {
+        Matrix m = m1;
+        m.addMatrix(m2);
+        return m;
+    }
+
+    public static Matrix subtractMatrix(Matrix m1, Matrix m2) {
+        Matrix m = m1;
+        m.difMatrix(m2);
+        return m;
     }
 
     public static Matrix matrixMultiplication(Matrix m, Matrix m1) {
         int y = m.array.length;
         int x = m.array[0].length;
-        int y1 = m1.array.length;
         int x1 = m1.array[0].length;
         if (y != x1) {
             throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
@@ -218,7 +213,7 @@ public class Matrix {
         for (int j = 0; j < y; j++) {
             for (int i = 0; i < x1; i++) {
                 for (int k = 0; k < x; k++) {
-                        tmpArray[j][i] += m.array[j][k] * m1.array[k][i];
+                    tmpArray[j][i] += m.array[j][k] * m1.array[k][i];
                 }
             }
         }
