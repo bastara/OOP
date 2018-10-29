@@ -62,7 +62,7 @@ public class Matrix {
         return new Vector(array[i]);
     }
 
-    @Override//ну и хитренькие же вы!!!
+    @Override
     public String toString() {
         return Arrays.deepToString(array).replaceAll("\\[", "{").replaceAll("]", "}");
     }
