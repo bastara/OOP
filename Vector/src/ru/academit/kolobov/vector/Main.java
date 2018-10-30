@@ -23,7 +23,6 @@ public class Main {
             System.out.println();
         }
 
-
         //отлавливаем исключение когда размерность вектора <=0
         try {
             System.out.println("Создаем вектор в размерности -3");
@@ -73,7 +72,6 @@ public class Main {
             System.out.println();
         }
 
-
         //a.	Прибавление к вектору другого вектора
         System.out.println("Размер вектора v1: " + v1);
         System.out.println("Размер вектора v4: " + v4);
@@ -94,7 +92,6 @@ public class Main {
         v5.multiplicationVectorByScalar(4);
         System.out.println("Координаты вектора v7(скалярное произведение на 4): " + v5);
         System.out.println();
-
 
         //d.	Разворот вектора (умножение всех компонент на -1)
         v5.invert();
@@ -140,18 +137,18 @@ public class Main {
         //5.	Реализовать статические методы – должны создаваться новые векторы:
         //a.	Сложение двух векторов
         System.out.println("Сложение векторов v5-" + v5 + " и v2-" + v2);
-        Vector v10 = Vector.sumStatic(v5, v2);
+        Vector v10 = Vector.sumNewVector(v5, v2);
         System.out.println("Координаты вектора v10:" + v10);
         System.out.println();
 
         //b.	Вычитание векторов
         System.out.println("Вычитание из v5-" + v5 + " вектора v2-" + v2);
-        Vector v11 = Vector.difStatic(v5, v2);
+        Vector v11 = Vector.difNewVector(v5, v2);
         System.out.println("Координаты вектора v11:" + v11);
         System.out.println();
 
         //a.	Скалярное произведение векторов
         System.out.println("Вектор v5-" + v5 + " и v8-" + v8);
-        System.out.println("Скалярное произведение векторов v5 и v8 будет: " + Vector.scalar(v5, v8));
+        System.out.println("Скалярное произведение векторов v5 и v8 будет: " + Vector.scalarProductOfVectors(v5, v8));
     }
 }
