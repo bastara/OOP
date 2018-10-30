@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         System.out.println("Заполнение списка строками из файла");
         try (Scanner scanner = new Scanner(new FileInputStream("input.txt"))) {
             ArrayList<String> names = new ArrayList<>();
@@ -19,6 +19,8 @@ public class Main {
             for (String s : names) {
                 System.out.println(s);
             }
+        } catch (FileNotFoundException e) {
+            System.out.println("Упссс. Файл не найден.");
         }
 
         ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1, 4, 2, 7, -8, 12, 13, 54, 64, 23, 12, 17, 18));
@@ -27,9 +29,7 @@ public class Main {
         System.out.println(list);
 
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
             if (list.get(i) % 2 == 0) {
-                System.out.println("Это четное число, удаляю.");
                 list.remove(i);
                 i--;
             }
@@ -46,9 +46,9 @@ public class Main {
         System.out.println("Исходный список: ");
         System.out.println(intList);
 
-        for (Integer index : intList) {
-            if (intListWithoutRepeat.indexOf(index) == -1) {
-                intListWithoutRepeat.add(index);
+        for (Integer element : intList) {
+            if (!intListWithoutRepeat.contains(element)) {
+                intListWithoutRepeat.add(element);
             }
         }
 
