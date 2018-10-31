@@ -7,12 +7,17 @@ import java.util.Arrays;
 public class Matrix {
     private Vector[] array;
 
+//    public Matrix(Vector[] vectors) {
+//        int y = vectors.length;
+//        array = new Vector[y];
+//        for (int i = 0; i < y; i++) {
+//            array[i] = vectors[i];
+//        }
+//    }
+
     public Matrix(Vector[] vectors) {
         int y = vectors.length;
-        array = new Vector[y];
-        for (int i = 0; i < y; i++) {
-            array[i] = vectors[i];
-        }
+        array = Arrays.copyOf(vectors,  y);
     }
 
     public Matrix(int n, int m) {
@@ -38,9 +43,7 @@ public class Matrix {
         array = new Vector[y];
         for (int i = 0; i < y; i++) {
             double[] m = new double[x];
-            for (int j = 0; j < x; j++) {
-                m[j] = a[i][j];
-            }
+            System.arraycopy(a[i], 0, m, 0, x);
             array[i] = new Vector(m);
         }
     }
@@ -84,11 +87,10 @@ public class Matrix {
     }
 
     public void multiplicationByScalar(int s) {
-        int y = array.length;
         int x = array[0].getSize();
-        for (int j = 0; j < y; j++) {
+        for (Vector v : array) {
             for (int k = 0; k < x; k++) {
-                array[j].setElement(k, array[j].getElement(k) * s);
+                v.setElement(k, v.getElement(k) * s);
             }
         }
     }
@@ -168,63 +170,65 @@ public class Matrix {
         return new Vector(arr);
     }
 
-//    public void addMatrix(Matrix m1) {
-//        int y = array.length;
-//        int x = array[0].length;
-//        int y1 = m1.array.length;
-//        int x1 = m1.array[0].length;
-//        if (y != y1 || x != x1) {
-//            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
-//        }
-//        for (int j = 0; j < y; j++) {
-//            for (int i = 0; i < x; i++) {
-//                array[j][i] += m1.array[j][i];
-//            }
-//        }
-//    }
-//
-//    public void difMatrix(Matrix m1) {
-//        int y = array.length;
-//        int x = array[0].length;
-//        int y1 = m1.array.length;
-//        int x1 = m1.array[0].length;
-//        if (y != y1 || x != x1) {
-//            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
-//        }
-//        for (int j = 0; j < y; j++) {
-//            for (int i = 0; i < x; i++) {
-//                array[j][i] -= m1.array[j][i];
-//            }
-//        }
-//    }
-//
-//    public static Matrix additionMatrix(Matrix m1, Matrix m2) {
-//        Matrix m = m1;
-//        m.addMatrix(m2);
-//        return m;
-//    }
-//
-//    public static Matrix subtractMatrix(Matrix m1, Matrix m2) {
-//        Matrix m = m1;
-//        m.difMatrix(m2);
-//        return m;
-//    }
-//
-//    public static Matrix matrixMultiplication(Matrix m, Matrix m1) {
-//        int y = m.array.length;
-//        int x = m.array[0].length;
-//        int x1 = m1.array[0].length;
-//        if (y != x1) {
-//            throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
-//        }
-//        double[][] tmpArray = new double[y][x1];
-//        for (int j = 0; j < y; j++) {
-//            for (int i = 0; i < x1; i++) {
-//                for (int k = 0; k < x; k++) {
-//                    tmpArray[j][i] += m.array[j][k] * m1.array[k][i];
-//                }
-//            }
-//        }
-//        return new Matrix(tmpArray);
-//    }
+    public void addMatrix(Matrix m1) {
+        int y = array.length;
+        int x = array[0].getSize();
+        int y1 = m1.array.length;
+        int x1 = m1.array[0].getSize();
+        if (y != y1 || x != x1) {
+            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
+        }
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x; i++) {
+                double tmp = array[j].getElement(i) + m1.array[j].getElement(i);
+                array[j].setElement(i, tmp);
+            }
+        }
+    }
+
+    public void difMatrix(Matrix m1) {
+        int y = array.length;
+        int x = array[0].getSize();
+        int y1 = m1.array.length;
+        int x1 = m1.array[0].getSize();
+        if (y != y1 || x != x1) {
+            throw new IllegalArgumentException("Размеры матриц должны совпадать!");
+        }
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x; i++) {
+                double tmp = array[j].getElement(i) - m1.array[j].getElement(i);
+                array[j].setElement(i, tmp);
+            }
+        }
+    }
+
+    public static Matrix additionMatrix(Matrix m1, Matrix m2) {
+        Matrix m = m1;
+        m.addMatrix(m2);
+        return m;
+    }
+
+    public static Matrix subtractMatrix(Matrix m1, Matrix m2) {
+        Matrix m = m1;
+        m.difMatrix(m2);
+        return m;
+    }
+
+    public static Matrix matrixMultiplication(Matrix m, Matrix m1) {
+        int y = m.array.length;
+        int x = m.array[0].getSize();
+        int x1 = m1.array[0].getSize();
+        if (y != x1) {
+            throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
+        }
+        double[][] tmpArray = new double[y][x1];
+        for (int j = 0; j < y; j++) {
+            for (int i = 0; i < x1; i++) {
+                for (int k = 0; k < x; k++) {
+                    tmpArray[j][i] += m.array[j].getElement(k) * m1.array[k].getElement(i);
+                }
+            }
+        }
+        return new Matrix(tmpArray);
+    }
 }

@@ -26,22 +26,6 @@ public class Main {
         System.out.println(m.toString());
         System.out.println();
 
-//        double[] c4 = {2, 4, 1};
-//        Vector v4 = new Vector(c4);
-//        double[] c5 = {0, 2, 1};
-//        Vector v5 = new Vector(c5);
-//        double[] c6 = {2, 1, 1};
-//        Vector v6 = new Vector(c6);
-//        Vector[] arrayV1 = {v4, v5, v6};
-//
-//        Matrix m10 = null;
-//        try {
-//            m10 = new Matrix(arrayV1);
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("EXCEPTIONS! Размер массив 0 или отрицательный. Матрица не создана");
-//            System.out.println();
-//        }
-
         //копируем матрицу m
         System.out.println("Копируем матрицу m в m1, маторица m1:");
         Matrix m1 = new Matrix(m);
@@ -86,56 +70,72 @@ public class Main {
         System.out.println("Умножение матрицы m на вектор v2");
         System.out.println("Вектор v2:" + v2);
         System.out.println("Матрица m2: " + m2);
-        Vector v4 = m2.multiplicationByVector(v2);
-        System.out.println("Результат v4 " + v4);
+        Vector v7 = m2.multiplicationByVector(v2);
+        System.out.println("Результат v7: " + v7);
         System.out.println();
 
-//        //Сложение матриц
-//        try {
-//            System.out.println("Сложение матриц m и m10");
-//            System.out.println("Матрица m: " + m);
-//            System.out.println("Матрица m10: " + m10);
-//            m.addMatrix(m10);
-//            System.out.println("Результат сложения: " + m);
-//            System.out.println();
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Сложение не выполнено.");
-//        }
-//
-//        //Вычитание матриц
-//        try {
-//            System.out.println("Вычитание матриц m10 и m");
-//            System.out.println("Матрица m10: " + m10);
-//            System.out.println("Матрица m: " + m);
-//            m10.difMatrix(m);
-//            System.out.println("Результат вычитания: " + m10);
-//            System.out.println();
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Вычитание не выполнено.");
-//        }
-//
-//        //Сложение матриц static
-//        System.out.println("Сложение матриц m и m10 (static)");
-//        System.out.println("Матрица m: " + m);
-//        System.out.println("Матрица m10: " + m10);
-//        Matrix m11 = Matrix.additionMatrix(m, m10);
-//        System.out.println("Результат сложения: " + m11);
-//        System.out.println();
-//
-//        //Вычитание матриц static
-//        System.out.println("Вычитание матриц m10 и m (static)");
-//        System.out.println("Матрица m10: " + m10);
-//        System.out.println("Матрица m: " + m);
-//        Matrix m12 = Matrix.subtractMatrix(m10, m);
-//        System.out.println("Результат вычитания: " + m12);
-//        System.out.println();
-//
-//        //Умножение матриц
-//        System.out.println("Умножение матриц m и m10");
-//        System.out.println("Матрица m: " + m);
-//        System.out.println("Матрица m10: " + m10);
-//        Matrix m13 = Matrix.matrixMultiplication(m, m10);
-//        System.out.println("Результат умножения: " + m13);
-//        System.out.println();
+        double[] c4 = {2, 4, 1};
+        Vector v4 = new Vector(c4);
+        double[] c5 = {0, 2, 1};
+        Vector v5 = new Vector(c5);
+        double[] c6 = {2, 1, 1};
+        Vector v6 = new Vector(c6);
+        Vector[] arrayV1 = {v4, v5, v6};
+
+        Matrix m10 = null;
+        try {
+            m10 = new Matrix(arrayV1);
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Размер массив 0 или отрицательный. Матрица не создана");
+            System.out.println();
+        }
+
+        //Сложение матриц
+        try {
+            System.out.println("Сложение матриц m и m10");
+            System.out.println("Матрица m: " + m);
+            System.out.println("Матрица m10: " + m10);
+            m.addMatrix(m10);
+            System.out.println("Результат сложения: " + m);
+            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Сложение не выполнено.");
+        }
+
+        //Вычитание матриц
+        try {
+            System.out.println("Вычитание матриц m10 и m");
+            System.out.println("Матрица m10: " + m10);
+            System.out.println("Матрица m: " + m);
+            m10.difMatrix(m);
+            System.out.println("Результат вычитания: " + m10);
+            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Вычитание не выполнено.");
+        }
+
+        //Сложение матриц static
+        System.out.println("Сложение матриц m и m10 (static)");
+        System.out.println("Матрица m: " + m);
+        System.out.println("Матрица m10: " + m10);
+        Matrix m11 = Matrix.additionMatrix(m, m10);
+        System.out.println("Результат сложения: " + m11);
+        System.out.println();
+
+        //Вычитание матриц static
+        System.out.println("Вычитание матриц m10 и m (static)");
+        System.out.println("Матрица m10: " + m10);
+        System.out.println("Матрица m: " + m);
+        Matrix m12 = Matrix.subtractMatrix(m10, m);
+        System.out.println("Результат вычитания: " + m12);
+        System.out.println();
+
+        //Умножение матриц
+        System.out.println("Умножение матриц m и m10");
+        System.out.println("Матрица m: " + m);
+        System.out.println("Матрица m10: " + m10);
+        Matrix m13 = Matrix.matrixMultiplication(m, m10);
+        System.out.println("Результат умножения: " + m13);
+        System.out.println();
     }
 }
