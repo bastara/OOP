@@ -42,10 +42,16 @@ public class Main {
         //Вывод вектора методом toString из класса Vector
         System.out.println("Координаты вектора по индексу 2(через класс векторов): " + v8);
         System.out.println();
+        System.out.println("Задание ветора {3, 4, 7} по индексу 2:");
+        double[] c9 = {3, 4, 7};
+        Vector v9 = new Vector(c9);
+        m1.setVector(2, v9);
+        System.out.println("Получена матрица m1: " + m1);
+        System.out.println();
 
         //Получение вектора-столбца по индексу
-        Vector v9 = m1.getVectorColumn(0);
-        System.out.println("Получение вектора по столбцу 0: " + v9);
+        Vector v10 = m1.getVectorColumn(0);
+        System.out.println("Получение вектора по столбцу 0: " + v10);
         System.out.println();
 
         //Транспонирование матрицы
@@ -61,15 +67,15 @@ public class Main {
         System.out.println();
 
         //Вычисление определителя матрицы
-        double determinamt = m.determinant();//пока не понял может ли он быть интом
+        double determinant = m.determinant();//пока не понял может ли он быть интом
         System.out.println("Вычисляем определительматрицы m: " + m);
-        System.out.println("Определитель матрицы m равен: " + determinamt);
+        System.out.println("Определитель матрицы m равен: " + determinant);
         System.out.println();
 
         //умножение матрицы на вектор
         System.out.println("Умножение матрицы m на вектор v2");
-        System.out.println("Вектор v2:" + v2);
-        System.out.println("Матрица m2: " + m2);
+        System.out.println("   Вектор v2: " + v2);
+        System.out.println("  Матрица m2: " + m2);
         Vector v7 = m2.multiplicationByVector(v2);
         System.out.println("Результат v7: " + v7);
         System.out.println();
@@ -93,8 +99,8 @@ public class Main {
         //Сложение матриц
         try {
             System.out.println("Сложение матриц m и m10");
-            System.out.println("Матрица m: " + m);
-            System.out.println("Матрица m10: " + m10);
+            System.out.println("         Матрица m: " + m);
+            System.out.println("       Матрица m10: " + m10);
             m.addMatrix(m10);
             System.out.println("Результат сложения: " + m);
             System.out.println();
@@ -105,8 +111,8 @@ public class Main {
         //Вычитание матриц
         try {
             System.out.println("Вычитание матриц m10 и m");
-            System.out.println("Матрица m10: " + m10);
-            System.out.println("Матрица m: " + m);
+            System.out.println("        Матрица m10: " + m10);
+            System.out.println("          Матрица m: " + m);
             m10.difMatrix(m);
             System.out.println("Результат вычитания: " + m10);
             System.out.println();
@@ -116,24 +122,24 @@ public class Main {
 
         //Сложение матриц static
         System.out.println("Сложение матриц m и m10 (static)");
-        System.out.println("Матрица m: " + m);
-        System.out.println("Матрица m10: " + m10);
+        System.out.println("         Матрица m: " + m);
+        System.out.println("       Матрица m10: " + m10);
         Matrix m11 = Matrix.additionMatrix(m, m10);
         System.out.println("Результат сложения: " + m11);
         System.out.println();
 
         //Вычитание матриц static
         System.out.println("Вычитание матриц m10 и m (static)");
-        System.out.println("Матрица m10: " + m10);
-        System.out.println("Матрица m: " + m);
+        System.out.println("        Матрица m10: " + m10);
+        System.out.println("          Матрица m: " + m);
         Matrix m12 = Matrix.subtractMatrix(m10, m);
         System.out.println("Результат вычитания: " + m12);
         System.out.println();
 
         //Умножение матриц
         System.out.println("Умножение матриц m и m10");
-        System.out.println("Матрица m: " + m);
-        System.out.println("Матрица m10: " + m10);
+        System.out.println("          Матрица m: " + m);
+        System.out.println("        Матрица m10: " + m10);
         Matrix m13 = Matrix.matrixMultiplication(m, m10);
         System.out.println("Результат умножения: " + m13);
         System.out.println();
