@@ -89,7 +89,7 @@ public class Main {
         //c.	Умножение вектора на скаляр
         double[] c5 = {1, -4, 1, 1};
         Vector v5 = new Vector(c5);
-        v5.multiplicationVectorByScalar(4);
+        v5.multiplyByScalar(4);
         System.out.println("Координаты вектора v7(скалярное произведение на 4): " + v5);
         System.out.println();
 
@@ -137,13 +137,13 @@ public class Main {
         //5.	Реализовать статические методы – должны создаваться новые векторы:
         //a.	Сложение двух векторов
         System.out.println("Сложение векторов v5-" + v5 + " и v2-" + v2);
-        Vector v10 = Vector.sumNewVector(v5, v2);
+        Vector v10 = Vector.sum(v5, v2);
         System.out.println("Координаты вектора v10:" + v10);
         System.out.println();
 
         //b.	Вычитание векторов
         System.out.println("Вычитание из v5-" + v5 + " вектора v2-" + v2);
-        Vector v11 = Vector.difNewVector(v5, v2);
+        Vector v11 = Vector.diff(v5, v2);
         System.out.println("Координаты вектора v11:" + v11);
         System.out.println();
 

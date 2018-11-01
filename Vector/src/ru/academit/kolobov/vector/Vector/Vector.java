@@ -30,13 +30,13 @@ public class Vector {
         coordinates = Arrays.copyOf(a, n);
     }
 
-    public static Vector sumNewVector(Vector v1, Vector v2) {
+    public static Vector sum(Vector v1, Vector v2) {
         Vector v = new Vector(v1);
         v.add(v2);
         return v;
     }
 
-    public static Vector difNewVector(Vector v1, Vector v2) {
+    public static Vector diff(Vector v1, Vector v2) {
         Vector v = new Vector(v1);
         v.subtraction(v2);
         return v;
@@ -127,9 +127,9 @@ public class Vector {
         this.coordinates[index] = c;
     }
 
-    public void multiplicationVectorByScalar(int s) {
-        for (int j = 0; j < coordinates.length; j++) {
-            coordinates[j] *= s;
+    public void multiplyByScalar(int scalar) {
+        for (int i = 0; i < coordinates.length; i++) {
+            coordinates[i] *= scalar;
         }
     }
 }
