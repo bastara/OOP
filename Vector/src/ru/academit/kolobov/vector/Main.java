@@ -5,7 +5,7 @@ import ru.academit.kolobov.vector.Vector.Vector;
 public class Main {
     public static void main(String[] args) {
         //Vector(double[]) – заполнение вектора значениями из массива
-        double[] c1 = {2, 4, 8};
+        double[] c1 = {2, 4, 8, -3, -1, 4, 2};
         Vector v1 = null;
         try {
             v1 = new Vector(c1);

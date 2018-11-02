@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         double[] c1 = {2, 4, 1};
         Vector v1 = new Vector(c1);
-        double[] c2 = {0, 2, 1};
+        double[] c2 = {0, 2,1,1};
         Vector v2 = new Vector(c2);
         double[] c3 = {2, 1, 1};
         Vector v3 = new Vector(c3);
