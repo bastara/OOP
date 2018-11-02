@@ -8,35 +8,39 @@ public class Matrix {
     private Vector[] matrixOfVector;
 
     public Matrix(Vector[] vectors) {
-        int y = vectors.length;
         int x = 0;
         for (Vector v : vectors) {
             if (v.getSize() > x) {
                 x = v.getSize();
             }
         }
+        int y = vectors.length;
         matrixOfVector = new Vector[y];
         for (int j = 0; j < y; j++) {
             matrixOfVector[j] = new Vector(x);
-            int size = vectors[j].getSize();
+            int size = vectors[j].getSize();//обратил внимание что метод вызывается каждый раз, решил сделать переменную, наверное так лучше будет?
             for (int i = 0; i < size; i++) {
-                matrixOfVector[j].setElement(i,vectors[j].getElement(i));
+                matrixOfVector[j].setElement(i, vectors[j].getElement(i));
             }
         }
     }
 
-    public Matrix(int n, int m) {
-        if (n <= 0 || m <= 0) {
+    public Matrix(int r, int c) {
+        if (r <= 0 || c <= 0) {
             throw new IllegalArgumentException("Размер массив 0 или отрицательный");
         }
-        matrixOfVector = new Vector[n];
-        for (int i = 0; i < n; i++) {
-            matrixOfVector[i] = new Vector(m);
+        matrixOfVector = new Vector[r];
+        for (int i = 0; i < r; i++) {
+            matrixOfVector[i] = new Vector(c);
         }
     }
 
     public Matrix(Matrix matrix) {
-        matrixOfVector = matrix.matrixOfVector;
+        matrixOfVector = new Vector[matrix.matrixOfVector.length];
+        for (int i = 0; i < matrix.matrixOfVector.length; i++) {
+//            this.setVector(i,matrix.getVector(i));
+            matrixOfVector[i] = matrix.getVector(i);
+        }
     }
 
     public Matrix(double[][] a) {
@@ -69,14 +73,11 @@ public class Matrix {
     }
 
     public void setVector(int i, Vector v) {
+        if (v.getSize() != this.getSizeX(this)) {
+            throw new IllegalArgumentException("Размер вектора отличается от размера матрицы!");
+        }
         matrixOfVector[i] = v;
     }
-
-// переопределил 2мя вариантами
-//    @Override
-//    public String toString() {
-//        return Arrays.deepToString(matrixOfVector).replaceAll("\\[", "{").replaceAll("]", "}");
-//    }
 
     @Override
     public String toString() {
@@ -94,21 +95,24 @@ public class Matrix {
         return str.append("}").toString();
     }
 
-    public Matrix getTransposition() {
-        int y = matrixOfVector.length;
-        int x = matrixOfVector[0].getSize();
-        double[][] arrayTrp = new double[y][x];
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                arrayTrp[i][j] = matrixOfVector[j].getElement(i);
+    public void transposition() {
+        int r = matrixOfVector.length;
+        int c = matrixOfVector[0].getSize();
+        Matrix m = new Matrix(c, r);
+        for (int i = 0; i < c; i++) {
+            for (int j = 0; j < r; j++) {
+                m.matrixOfVector[i].setElement(j, matrixOfVector[j].getElement(i));
             }
         }
-        return new Matrix(arrayTrp);
+        matrixOfVector = m.matrixOfVector;
     }
 
-    public Vector getVectorColumn(int i) {
-        Matrix m = getTransposition();
-        return m.getVector(i);
+    public Vector getVectorColumn(int i) {//можно конечно 2 раза транспонировать, но я так понимаю что это тоже не правильно?
+        double[] tmpV = new double[matrixOfVector.length];
+        for (int j = 0; j < matrixOfVector.length; j++) {
+            tmpV[j] = matrixOfVector[j].getElement(i);
+        }
+        return new Vector(tmpV);
     }
 
     public void multiplicationByScalar(int s) {
@@ -240,8 +244,9 @@ public class Matrix {
     public static Matrix matrixMultiplication(Matrix m, Matrix m1) {
         int y = m.matrixOfVector.length;
         int x = m.matrixOfVector[0].getSize();
+        int y1 = m1.matrixOfVector.length;
         int x1 = m1.matrixOfVector[0].getSize();
-        if (y != x1) {
+        if (y != x1 || y1 != x) {
             throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
         }
         double[][] tmpArray = new double[y][x1];
