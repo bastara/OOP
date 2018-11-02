@@ -85,23 +85,41 @@ public class Vector {
 
     public void add(Vector v2) {
         if (coordinates.length < v2.coordinates.length) {
-            Vector v = new Vector(v2.coordinates.length, this.coordinates);
-            coordinates = v.coordinates;
+            coordinates = Arrays.copyOfRange(coordinates, 0, v2.coordinates.length);
         }
         for (int i = 0; i < coordinates.length; i++) {
             coordinates[i] += v2.coordinates[i];
         }
     }
 
+//    public void add(Vector v2) {
+//        if (coordinates.length < v2.coordinates.length) {
+//            Vector v = new Vector(v2.coordinates.length, this.coordinates);
+//            coordinates = v.coordinates;
+//        }
+//        for (int i = 0; i < coordinates.length; i++) {
+//            coordinates[i] += v2.coordinates[i];
+//        }
+//    }
+
     public void subtraction(Vector v2) {
         if (coordinates.length < v2.coordinates.length) {
-            Vector v = new Vector(v2.coordinates.length, this.coordinates);
-            coordinates = v.coordinates;
+            coordinates = Arrays.copyOfRange(coordinates, 0, v2.coordinates.length);
         }
         for (int i = 0; i < v2.coordinates.length; i++) {
             coordinates[i] -= v2.coordinates[i];
         }
     }
+
+//    public void subtraction(Vector v2) {
+//        if (coordinates.length < v2.coordinates.length) {
+//            Vector v = new Vector(v2.coordinates.length, this.coordinates);
+//            coordinates = v.coordinates;
+//        }
+//        for (int i = 0; i < v2.coordinates.length; i++) {
+//            coordinates[i] -= v2.coordinates[i];
+//        }
+//    }
 
     public void invert() {
         for (int i = 0; i < this.coordinates.length; i++) {
