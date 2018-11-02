@@ -87,7 +87,7 @@ public class Vector {
         if (coordinates.length < v2.coordinates.length) {
             coordinates = Arrays.copyOf(coordinates, v2.coordinates.length);
         }
-        for (int i = 0; i < Math.min(coordinates.length, v2.coordinates.length); i++) {
+        for (int i = 0; i < v2.coordinates.length; i++) {
             coordinates[i] += v2.coordinates[i];
         }
     }
