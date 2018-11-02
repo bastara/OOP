@@ -85,9 +85,8 @@ public class Vector {
 
     public void add(Vector v2) {
         if (coordinates.length < v2.coordinates.length) {
-            double[] arr = Arrays.copyOf(v2.coordinates, v2.coordinates.length);
-            System.arraycopy(coordinates, 0, arr, 0, coordinates.length);
-            coordinates = arr;
+            Vector v = new Vector(v2.coordinates.length, this.coordinates);
+            coordinates = v.coordinates;
         }
         for (int i = 0; i < coordinates.length; i++) {
             coordinates[i] += v2.coordinates[i];
@@ -96,9 +95,8 @@ public class Vector {
 
     public void subtraction(Vector v2) {
         if (coordinates.length < v2.coordinates.length) {
-            double[] arr = new double[v2.coordinates.length];
-            System.arraycopy(coordinates, 0, arr, 0, coordinates.length);
-            coordinates = arr;
+            Vector v = new Vector(v2.coordinates.length, this.coordinates);
+            coordinates = v.coordinates;
         }
         for (int i = 0; i < v2.coordinates.length; i++) {
             coordinates[i] -= v2.coordinates[i];
