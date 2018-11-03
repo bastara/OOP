@@ -34,21 +34,27 @@ public class Main {
         System.out.println();
 
         //получаем размер матрицы m1
-        System.out.println("Размер матрицы m1: " + m1.getSizeY(m1) + "-" + m1.getSizeX(m1));
+        System.out.println("Размер матрицы m1: " + m1.getRowsCount() + "-" + m1.getColumnsCount());
 
         //Получение и задание вектора-строки по индексу
-        Vector v8 = m1.getVector(2);
-        System.out.println("Получение вектора по индексу 2: " + m1.getVector(2));
+        try {
+            System.out.println("Получение вектора по индексу 2: " + m1.getRow(2));
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы!");
+            System.out.println();
+        }
+
         //Вывод вектора методом toString из класса Vector
+        Vector v8 = m1.getRow(2);
         System.out.println("Координаты вектора по индексу 2(через класс векторов): " + v8);
         System.out.println();
         System.out.println("Задание ветора {3, 4, 7, 8} по индексу 2:");
         double[] c9 = {3, 4, 7, 8};
         Vector v9 = new Vector(c9);
         try {
-            m1.setVector(2, v9);
+            m1.setRow(2, v9);
         } catch (IllegalArgumentException e) {
-            System.out.println("EXCEPTIONS! Размер вектора отличается от размера матрицы!");
+            System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы или размер вектора отличается от размера матрицы!");
             System.out.println();
         }
         System.out.println("Получена матрица m1: " + m1);
@@ -72,18 +78,29 @@ public class Main {
         System.out.println();
 
         //Вычисление определителя матрицы
-        double determinant = m.determinant();//пока не понял может ли он быть интом
+        double determinant = 0;
+        try {
+            determinant = m.determinant();//пока не понял может ли он быть интом
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Матрица должна быть квадратного вида");
+            System.out.println();
+        }
         System.out.println("Вычисляем определительматрицы m: " + m);
         System.out.println("Определитель матрицы m равен: " + determinant);
         System.out.println();
 
         //умножение матрицы на вектор
+        try{
         System.out.println("Умножение матрицы m1 на вектор v2");
         System.out.println("   Вектор v2: " + v2);
         System.out.println("  Матрица m1: " + m1);
         Vector v7 = m1.multiplicationByVector(v2);
         System.out.println("Результат v7: " + v7);
         System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Длина вектора должна быть равна числу строк в матрице!");
+            System.out.println();
+        }
 
         double[] c4 = {2, 4, 1};
         Vector v4 = new Vector(c4);
@@ -150,13 +167,12 @@ public class Main {
             System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Вычитание не выполнено.");
         }
 
-
         //Умножение матриц
         try {
             System.out.println("Умножение матриц m и m10");
             System.out.println("          Матрица m: " + m);
             System.out.println("        Матрица m10: " + m10);
-            Matrix m13 = Matrix.matrixMultiplication(m, m10);
+            Matrix m13 = Matrix.multiplicationMatrix(m, m10);
             System.out.println("Результат умножения: " + m13);
             System.out.println();
         } catch (IllegalArgumentException e) {
