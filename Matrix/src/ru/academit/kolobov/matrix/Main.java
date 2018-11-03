@@ -90,13 +90,13 @@ public class Main {
         System.out.println();
 
         //умножение матрицы на вектор
-        try{
-        System.out.println("Умножение матрицы m1 на вектор v2");
-        System.out.println("   Вектор v2: " + v2);
-        System.out.println("  Матрица m1: " + m1);
-        Vector v7 = m1.multiplicationByVector(v2);
-        System.out.println("Результат v7: " + v7);
-        System.out.println();
+        try {
+            System.out.println("Умножение матрицы m1 на вектор v2");
+            System.out.println("   Вектор v2: " + v2);
+            System.out.println("  Матрица m1: " + m1);
+            Vector v7 = m1.multiplicationByVector(v2);
+            System.out.println("Результат v7: " + v7);
+            System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Длина вектора должна быть равна числу строк в матрице!");
             System.out.println();
