@@ -1,85 +1,115 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class CsvConverter {
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        StringBuilder htmlStr = new StringBuilder("<table>");
-        try (PrintWriter writer = new PrintWriter("myhtml.html", "Cp1251");
-             Scanner scanner = new Scanner(new FileInputStream("source.csv"))) {
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            System.out.println("Неверное количество аргуметов! Передайте программе пути к исходному и конечному файлу!");
+            return;
+        }
 
-            int cellCount = 0;
+        StringBuilder htmlStr = new StringBuilder("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Конвертирование CSV файла</title></head><body><table border=\"1\">");
+        try (PrintWriter writer = new PrintWriter(args[1]);
+             Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
+
+            int rowTableCount = 0;
+            int cellTableCount = 0;
+            boolean isCellOpen = false;
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                line = line.replaceAll("<", "&lt").replaceAll(">", "&gt").replaceAll("&", "&amp");
-
+                String str = scanner.nextLine();
+                int cellInRow = 0;
                 boolean isDoubleQuotes = false;
-                char[] strArray = line.toCharArray();
-                for (int i = 0; i < strArray.length; i++) {
+                for (int i = 0; i < str.length(); i++) {
                     if (isDoubleQuotes) {
                         isDoubleQuotes = false;
                         continue;
                     }
-                    if (i == 0 && cellCount == 0) {
+                    if (i == 0 && !isCellOpen) {
                         htmlStr.append("<tr><td>");
+                        cellInRow++;
+                        if (rowTableCount == 1) {
+                            cellTableCount++;
+                        }
                     }
-                    if (i == 0 && cellCount == 1) {
-                        htmlStr.append("</br>");
+                    if (i == 0 && isCellOpen) {
+                        rowTableCount++;
+                        htmlStr.append("<br/>");
                     }
-                    if (i == strArray.length - 1 && strArray[i] == '"') {
+                    if (i == str.length() - 1 && str.charAt(i) == '"') {
                         htmlStr.append("</td></tr>");
-                        cellCount = 0;
+                        isCellOpen = false;
                         continue;
                     }
-                    if (i == strArray.length - 1 && strArray[i] == ',') {
+                    if (i == str.length() - 1 && str.charAt(i) == ',' && cellInRow < cellTableCount) {
+                        htmlStr.append("</td><td></td></tr>");
+                        isCellOpen = false;
+                        continue;
+                    }
+                    if (i == str.length() - 1 && str.charAt(i) == ',') {
                         htmlStr.append("</td></tr>");
-                        cellCount = 0;
+                        isCellOpen = false;
                         continue;
                     }
-                    if (i == strArray.length - 1 && cellCount == 0) {
-                        htmlStr.append(strArray[i]).append("</td></tr>");
-                        cellCount = 0;
+                    if (i == str.length() - 1 && !isCellOpen) {
+                        htmlStr.append(str.charAt(i)).append("</td></tr>");
+                        isCellOpen = false;
                         continue;
                     }
-                    if (strArray[i] == '"' && cellCount == 0 && i == 0) {
-                        cellCount = 1;
+                    if (str.charAt(i) == '"' && !isCellOpen && i == 0) {
+                        isCellOpen = true;
                         continue;
                     }
-                    if (strArray[i] == '"' && cellCount == 0) {
-                        cellCount = 1;
+                    if (str.charAt(i) == '"' && !isCellOpen) {
+                        isCellOpen = true;
                         continue;
                     }
-                    if (i != strArray.length - 1 && cellCount == 1 && strArray[i] == '"' && strArray[i + 1] != '"') {
-                        cellCount = 0;
+                    if (i != str.length() - 1 && isCellOpen && str.charAt(i) == '"' && str.charAt(i + 1) != '"') {
+                        isCellOpen = false;
                         continue;
                     }
-                    if (strArray[i] == ',' && cellCount == 1) {
+                    if (str.charAt(i) == ',' && isCellOpen) {
                         htmlStr.append(',');
                         continue;
                     }
-                    if (strArray[i] == ',' && cellCount == 0) {
+                    if (str.charAt(i) == ',' && !isCellOpen) {
                         htmlStr.append("</td><td>");
+                        cellInRow++;
+                        if (rowTableCount == 1) {
+                            cellTableCount++;
+                        }
                         continue;
                     }
-                    if (i != strArray.length - 1 && cellCount == 1 && strArray[i] == '"' && strArray[i + 1] == '"') {
+                    if (i != str.length() - 1 && isCellOpen && str.charAt(i) == '"' && str.charAt(i + 1) == '"') {
                         htmlStr.append('"');
                         isDoubleQuotes = true;
                         continue;
                     }
-                    if (strArray[i] == '"') {
+                    if (str.charAt(i) == '"') {
                         continue;
                     }
-                    htmlStr.append(strArray[i]);
+                    if (str.charAt(i) == '<') {
+                        htmlStr.append("&lt");
+                        continue;
+                    }
+                    if (str.charAt(i) == '>') {
+                        htmlStr.append("&gt");
+                        continue;
+                    }
+                    if (str.charAt(i) == '&') {
+                        htmlStr.append("&amp");
+                        continue;
+                    }
+                    htmlStr.append(str.charAt(i));//можно было сделать через if-else но подумал что код станет менее читабельным.
                 }
             }
-            htmlStr.append("</table>");
+            htmlStr.append("</table></body></html>");
 
             writer.println(htmlStr);
             System.out.println("Конвертация произведена.");
         } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден.");
+            System.out.println("Файл не найден. Проверьте пути файлов.");
         }
     }
 }
