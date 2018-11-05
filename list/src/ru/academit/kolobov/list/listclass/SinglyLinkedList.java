@@ -8,6 +8,17 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList() {
     }
 
+    //конструктор копирования
+    public SinglyLinkedList(SinglyLinkedList<T> sourceList) {
+        head = new ListItem<>(sourceList.head);
+        last = sourceList.last;
+        count = sourceList.count;
+        //как конструкторо понимает какие элементы присваивать новому списку??? Или он берет что угодно не принадлежащие другим листам?
+        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+            ListItem<T> tmp = new ListItem<>(p);
+        }
+    }
+
     public int getSizeList() {
         return count;
     }
@@ -17,6 +28,9 @@ public class SinglyLinkedList<T> {
     }
 
     public T getElement(int index) {
+        if (index + 1 > count || index < 0) {
+            throw new IllegalArgumentException("Не верный индекс.");
+        }
         int countElement = 0;
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             if (countElement == index) {
@@ -30,7 +44,6 @@ public class SinglyLinkedList<T> {
     public void addFirstElement(T data) {
         ListItem<T> element = new ListItem<>();
         element.setData(data);
-
         element.setNext(head);
         head = element;
     }
@@ -69,6 +82,9 @@ public class SinglyLinkedList<T> {
         } else if (index == 0) {
             addFirstElement(data);
         } else {
+            if (index + 1 == count) {
+                last = element;
+            }
             int countElement = 0;
             ListItem<T> tmp = null;
             for (ListItem<T> p = head; p != null; p = p.getNext()) {
@@ -92,6 +108,10 @@ public class SinglyLinkedList<T> {
     }
 
     public void change(T data, int index) {
+        if (index + 1 > count || index < 0) {
+            throw new IllegalArgumentException("Не верный индекс");
+        }
+
         int countElement = 0;
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             if (countElement == index) {
@@ -103,6 +123,9 @@ public class SinglyLinkedList<T> {
     }
 
     public ListItem delete(int index) {
+        if (index > count + 1 || index < 0) {
+            throw new IllegalArgumentException("Не верный индекс");
+        }
         if (index == 0) {
             return deleteFirst();
         }
@@ -120,8 +143,11 @@ public class SinglyLinkedList<T> {
 
 
     public ListItem<T> deleteFirst() {
+        if (head == null) {
+            throw new IllegalArgumentException("Не верный индекс");
+        }
         ListItem<T> tmp = head;
-        head = head.getNext().getNext();
+        head = head.getNext();
         return tmp;
     }
 
@@ -135,8 +161,31 @@ public class SinglyLinkedList<T> {
                     p.setNext(p.getNext().getNext());
                     return true;
                 }
+                if (p.getNext().getNext() == null) {
+                    return false;
+                }
             }
         }
         return false;
+    }
+
+    public ListItem<T> getLast() {
+        return last;
+    }
+
+    public void reverse() {
+        last = head;
+        ListItem<T> tmp1 = new ListItem<>(head);
+        tmp1.setNext(null);
+        ListItem<T> tmp2;
+        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+            tmp2 = new ListItem<>(p);
+            tmp2.setNext(tmp1);
+            tmp1 = tmp2;
+            if (p.getNext() == null) {//можно съэкономить память на последнем элементе
+                head = tmp1;
+            }
+        }
+
     }
 }
