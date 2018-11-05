@@ -1,5 +1,7 @@
 package ru.academit.kolobov.list.listclass;
 
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private ListItem<T> last;//решил что будет требоваться достаточно часто, поэтому дешевле добавить переменную
@@ -9,15 +11,32 @@ public class SinglyLinkedList<T> {
     }
 
     //конструктор копирования
-    public SinglyLinkedList(SinglyLinkedList<T> sourceList) {
-        head = new ListItem<>(sourceList.head);
-        last = sourceList.last;
-        count = sourceList.count;
-        //как конструкторо понимает какие элементы присваивать новому списку??? Или он берет что угодно не принадлежащие другим листам?
+    public SinglyLinkedList copyList() {
+        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
+//        newList.head = new ListItem<>(sourceList.head);
+        newList.head=new ListItem<>(head);
+        this.last = head;
+        this.count = 1;
+        int i = 0;
         for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
-            ListItem<T> tmp = new ListItem<>(p);
+             newList.addElement(p.getData(),i++);
+            count++;
         }
+        return newList;
     }
+
+    //конструктор копирования
+//    public SinglyLinkedList(SinglyLinkedList<T> sourceList) {
+//        for (ListItem<T> p = sourceList.head; p != null; p = p.getNext()) {
+//            ListItem<T> tmp = new ListItem<>(p);
+//            if (p == sourceList.head) {
+//                head = tmp;
+//            }
+//        }
+//        head = new ListItem<>(sourceList.head);
+//        last = sourceList.last;
+//        count = sourceList.count;
+//    }
 
     public int getSizeList() {
         return count;
@@ -27,30 +46,21 @@ public class SinglyLinkedList<T> {
         return head.getData();
     }
 
-    public T getElement(int index) {
-        if (index + 1 > count || index < 0) {
-            throw new IllegalArgumentException("Не верный индекс.");
+    public T getElementData(int index) {
+        if (index >= count || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("Не верный индекс");
         }
-        int countElement = 0;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (countElement == index) {
-                return p.getData();
-            }
-            countElement++;
-        }
-        return null;
+        return getElement(index).getData();
     }
 
     public void addFirstElement(T data) {
-        ListItem<T> element = new ListItem<>();
-        element.setData(data);
+        ListItem<T> element = new ListItem<>(data);
         element.setNext(head);
         head = element;
     }
 
     public void addElement(T data) {
-        ListItem<T> element = new ListItem<>();
-        element.setData(data);
+        ListItem<T> element = new ListItem<>(data);
 
         if (head == null) {
             head = element;
@@ -64,87 +74,72 @@ public class SinglyLinkedList<T> {
     }
 
     public void addElement(T data, int index) {
-        if (index > count + 1 || index < 0) {
-            throw new IllegalArgumentException("Не верный индекс");
+        if (index > count || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("Не верный индекс");
         }
 
-        ListItem<T> element = new ListItem<>();
-        element.setData(data);
+        ListItem<T> element = new ListItem<>(data);
 
         if (head == null && index == 0) {
             head = element;
             last = element;
             count++;
-        } else if (index == count + 1) {
+        } else if (index == count) {
             last.setNext(element);
             last = element;
             count++;
         } else if (index == 0) {
             addFirstElement(data);
         } else {
-            if (index + 1 == count) {
-                last = element;
-            }
-            int countElement = 0;
-            ListItem<T> tmp = null;
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (countElement == index) {
-                    element.setNext(p);
-                    tmp.setNext(element);
-                    break;
-                }
-                if (countElement + 1 == index) {
-                    tmp = p;
-                }
-                countElement++;
-            }
+            ListItem<T> tmp = getElement(index - 1);
+            element.setNext(getElement(index));
+            tmp.setNext(element);
         }
     }
 
-    public void print() {
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            System.out.println(p.getData());
+            str.append(p.getData()).append(System.lineSeparator());
         }
+        return str.toString();
     }
 
     public void change(T data, int index) {
-        if (index + 1 > count || index < 0) {
-            throw new IllegalArgumentException("Не верный индекс");
+        if (index >= count || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("Не верный индекс");
         }
+        getElement(index).setData(data);
+    }
 
+    private ListItem<T> getElement(int index) {
         int countElement = 0;
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
             if (countElement == index) {
-                p.setData(data);
-                break;
+                return p;
             }
             countElement++;
         }
+        return null;
     }
 
     public ListItem delete(int index) {
         if (index > count + 1 || index < 0) {
-            throw new IllegalArgumentException("Не верный индекс");
+            throw new ArrayIndexOutOfBoundsException("Не верный индекс");
         }
         if (index == 0) {
             return deleteFirst();
         }
-        int countElement = 0;
-        ListItem<T> tmp = null;
-        for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (countElement + 1 == index) {
-                tmp = p.getNext();
-                p.setNext(p.getNext().getNext());
-            }
-            countElement++;
-        }
+        ListItem<T> tmp = getElement(index - 1).getNext();
+        getElement(index - 1).setNext(getElement(index - 1).getNext().getNext());
         return tmp;
     }
 
 
     public ListItem<T> deleteFirst() {
         if (head == null) {
-            throw new IllegalArgumentException("Не верный индекс");
+            throw new ArrayIndexOutOfBoundsException("Не верный индекс");
         }
         ListItem<T> tmp = head;
         head = head.getNext();
@@ -157,7 +152,7 @@ public class SinglyLinkedList<T> {
             return true;
         } else {
             for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (p.getNext().getData().equals(data)) {
+                if (Objects.equals(p.getNext().getData(),data)) {
                     p.setNext(p.getNext().getNext());
                     return true;
                 }
@@ -186,6 +181,5 @@ public class SinglyLinkedList<T> {
                 head = tmp1;
             }
         }
-
     }
 }

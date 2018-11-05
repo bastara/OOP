@@ -8,15 +8,16 @@ public class Main {
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
 
         list.addElement("первый");
-        list.addElement("второй");
+//        list.addElement("второй");
+        list.addElement(null);
         list.addElement("третий");
-        list.addElement("четвертый", 4);
+        list.addElement("четвертый");
         list.addElement("пятый");
         list.addElement("шестой");
 
         //печать списка
         System.out.println("Печать списка:");
-        list.print();
+        System.out.println(list.toString());
         System.out.println();
 
         //•	получение размера списка
@@ -27,7 +28,7 @@ public class Main {
 
         //•	получение/изменение значения по указанному индексу.
         try {
-            System.out.println("       Элемент по индексу 3: " + list.getElement(3));
+            System.out.println("       Элемент по индексу 3: " + list.getElementData(3));
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
@@ -41,22 +42,22 @@ public class Main {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
-        System.out.println("Теперь элемент по индексу 3: " + list.getElement(3));
+        System.out.println("Теперь элемент по индексу 3: " + list.getElementData(3));
 
         //печать списка
         System.out.println();
         System.out.println("Печать списка:");
-        list.print();
+        System.out.println(list.toString());
         System.out.println();
 
         //•	удаление элемента по индексу, пусть выдает значение элемента
         try {
             System.out.println();
             System.out.println("Удаление элемента под индексом 1");
-            ListItem delItem = list.delete(1);
+            ListItem delItem = list.delete(5);
             System.out.println("Был удален элемент: " + delItem.getData());
             System.out.println("Печать списка:");
-            list.print();
+            System.out.println(list.toString());
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
@@ -69,14 +70,14 @@ public class Main {
         //печать списка
         System.out.println();
         System.out.println("Печать списка:");
-        list.print();
+        System.out.println(list.toString());
         System.out.println();
 
         //•	вставка элемента по индексу
         try {
             System.out.println("Вставка элемента по индексу. Вставляем элемент \"восьмой\" по индексу 1");
             list.addElement("восьмой", 1);
-            list.print();
+            System.out.println(list.toString());
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
@@ -88,7 +89,7 @@ public class Main {
             System.out.println("Удаление первого элемента");
             ListItem<String> deleteItem = list.deleteFirst();
             System.out.println("Был удален первый элемент,это: " + deleteItem.getData());
-            list.print();
+            System.out.println(list.toString());
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
@@ -97,18 +98,21 @@ public class Main {
 
         //•	удаление узла по значению, пусть выдает true, если элемент был удален
         System.out.println("Удаление элемента \"третий\": " + list.deleteValue("третий"));
-        list.print();
+        System.out.println(list.toString());
         System.out.println();
 
         //•	разворот списка за линейное время
         list.reverse();
         System.out.println("Разворот списка");
-        list.print();
+        System.out.println(list.toString());
         System.out.println();
 
         //•	копирование списка
         System.out.println("Копирование списка. Новый список.");
-        SinglyLinkedList<String> newList = new SinglyLinkedList<>(list);
-        newList.print();
+//        SinglyLinkedList<String> newList = new SinglyLinkedList<>(list);
+        SinglyLinkedList<String> newList = list.copyList();
+        list.change("wwww",3);
+        System.out.println(list.toString());
+        System.out.println(newList.toString());
     }
 }
