@@ -158,6 +158,9 @@ public class SinglyLinkedList<T> {
     //•	копирование списка
     public SinglyLinkedList copyList() {
         SinglyLinkedList<T> newList = new SinglyLinkedList<>();
+        if (head == null) {
+            return newList;
+        }
         newList.head = new ListItem<>(head);
         newList.last = head;
         newList.count = 1;
