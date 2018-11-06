@@ -18,7 +18,7 @@ public class Matrix {
         matrixOfVector = new Vector[row];
         for (int j = 0; j < row; j++) {
             matrixOfVector[j] = new Vector(col);
-            int size = vectors[j].getSize();//обратил внимание что метод вызывается каждый раз, решил сделать переменную, наверное так лучше будет?
+            int size = vectors[j].getSize();
             for (int i = 0; i < size; i++) {
                 matrixOfVector[j].setElement(i, vectors[j].getElement(i));
             }
@@ -44,8 +44,6 @@ public class Matrix {
 
     public Matrix(double[][] a) {
         int row = a.length;
-        //считаю длину массива, предполагая что длина не одного размера в строках.
-        //не нашел ситуации когда бы длина могла бы варироваться в массиве.
         int col = 0;
         for (double[] r : a) {
             if (col < r.length) {
