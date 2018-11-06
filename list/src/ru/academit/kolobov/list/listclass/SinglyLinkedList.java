@@ -10,34 +10,6 @@ public class SinglyLinkedList<T> {
     public SinglyLinkedList() {
     }
 
-    //конструктор копирования
-    public SinglyLinkedList copyList() {
-        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
-//        newList.head = new ListItem<>(sourceList.head);
-        newList.head=new ListItem<>(head);
-        this.last = head;
-        this.count = 1;
-        int i = 0;
-        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
-             newList.addElement(p.getData(),i++);
-            count++;
-        }
-        return newList;
-    }
-
-    //конструктор копирования
-//    public SinglyLinkedList(SinglyLinkedList<T> sourceList) {
-//        for (ListItem<T> p = sourceList.head; p != null; p = p.getNext()) {
-//            ListItem<T> tmp = new ListItem<>(p);
-//            if (p == sourceList.head) {
-//                head = tmp;
-//            }
-//        }
-//        head = new ListItem<>(sourceList.head);
-//        last = sourceList.last;
-//        count = sourceList.count;
-//    }
-
     public int getSizeList() {
         return count;
     }
@@ -152,7 +124,7 @@ public class SinglyLinkedList<T> {
             return true;
         } else {
             for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (Objects.equals(p.getNext().getData(),data)) {
+                if (Objects.equals(p.getNext().getData(), data)) {
                     p.setNext(p.getNext().getNext());
                     return true;
                 }
@@ -181,5 +153,18 @@ public class SinglyLinkedList<T> {
                 head = tmp1;
             }
         }
+    }
+
+    //•	копирование списка
+    public SinglyLinkedList copyList() {
+        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
+        newList.head = new ListItem<>(head);
+        newList.last = head;
+        newList.count = 1;
+        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+            newList.addElement(p.getData());
+            count++;
+        }
+        return newList;
     }
 }

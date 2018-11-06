@@ -29,7 +29,7 @@ public class Main {
         //•	получение/изменение значения по указанному индексу.
         try {
             System.out.println("       Элемент по индексу 3: " + list.getElementData(3));
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -38,7 +38,7 @@ public class Main {
         try {
             System.out.println("Меняем элемент по индексу 3 на \"НОВЫЙ ЭЛЕМЕНТ\"");
             list.change("НОВЫЙ ЭЛЕМЕНТ", 3);
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -59,7 +59,7 @@ public class Main {
             System.out.println("Печать списка:");
             System.out.println(list.toString());
             System.out.println();
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -78,7 +78,7 @@ public class Main {
             System.out.println("Вставка элемента по индексу. Вставляем элемент \"восьмой\" по индексу 1");
             list.addElement("восьмой", 1);
             System.out.println(list.toString());
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -91,7 +91,7 @@ public class Main {
             System.out.println("Был удален первый элемент,это: " + deleteItem.getData());
             System.out.println(list.toString());
             System.out.println();
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -108,11 +108,17 @@ public class Main {
         System.out.println();
 
         //•	копирование списка
-        System.out.println("Копирование списка. Новый список.");
-//        SinglyLinkedList<String> newList = new SinglyLinkedList<>(list);
-        SinglyLinkedList<String> newList = list.copyList();
-        list.change("wwww",3);
+        System.out.println("Копирование списка.");
+        SinglyLinkedList newList = list.copyList();
+        System.out.println("Меняем в старом списке элемент под 3 индексом и печатаем список.");
+        list.change("новый элемент в старом списке", 3);
         System.out.println(list.toString());
+        System.out.println();
+        System.out.println("Новый список");
+        System.out.println(newList.toString());
+
+        System.out.println();
+        System.out.println("Удаляем null  в новом списке: " + newList.deleteValue(null));
         System.out.println(newList.toString());
     }
 }
