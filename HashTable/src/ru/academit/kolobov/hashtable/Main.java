@@ -24,9 +24,6 @@ public class Main {
         names.add(pig);
 
 
-        d.na
-
-        dbf[0] = ;
 
         System.out.println(pig.hashCode());
         System.out.println(pig1.hashCode());

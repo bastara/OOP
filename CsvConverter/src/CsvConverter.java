@@ -57,10 +57,6 @@ public class CsvConverter {
                         isCellOpen = false;
                         continue;
                     }
-                    if (str.charAt(i) == '"' && !isCellOpen && i == 0) {
-                        isCellOpen = true;
-                        continue;
-                    }
                     if (str.charAt(i) == '"' && !isCellOpen) {
                         isCellOpen = true;
                         continue;
@@ -106,7 +102,9 @@ public class CsvConverter {
             }
             htmlStr.append("</table></body></html>");
 
-            writer.println(htmlStr);
+//            String output=htmlStr.toString().replaceAll("<", "&lt").replaceAll(">", "&gt").replaceAll("&", "&amp");
+
+            writer.println(htmlStr.toString());
             System.out.println("Конвертация произведена.");
         } catch (FileNotFoundException e) {
             System.out.println("Файл не найден. Проверьте пути файлов.");
