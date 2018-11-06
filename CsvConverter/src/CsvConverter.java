@@ -7,6 +7,7 @@ public class CsvConverter {
     public static void main(String[] args) {
         if (args.length < 2) {
             System.out.println("Неверное количество аргуметов! Передайте программе пути к исходному и конечному файлу!");
+            System.out.println("Например так: csvconverter.exe c:\\source.csv c:\\output.html");
             return;
         }
 
@@ -57,10 +58,6 @@ public class CsvConverter {
                         isCellOpen = false;
                         continue;
                     }
-                    if (str.charAt(i) == '"' && !isCellOpen && i == 0) {
-                        isCellOpen = true;
-                        continue;
-                    }
                     if (str.charAt(i) == '"' && !isCellOpen) {
                         isCellOpen = true;
                         continue;
@@ -89,22 +86,44 @@ public class CsvConverter {
                     if (str.charAt(i) == '"') {
                         continue;
                     }
-                    if (str.charAt(i) == '<') {
-                        htmlStr.append("&lt");
-                        continue;
-                    }
-                    if (str.charAt(i) == '>') {
-                        htmlStr.append("&gt");
-                        continue;
-                    }
-                    if (str.charAt(i) == '&') {
-                        htmlStr.append("&amp");
-                        continue;
-                    }
-                    htmlStr.append(str.charAt(i));//можно было сделать через if-else но подумал что код станет менее читабельным.
+                    htmlStr.append(str.charAt(i));
                 }
             }
             htmlStr.append("</table></body></html>");
+
+            isCellOpen = false;
+            for (int index = 0; index < htmlStr.length(); index++) {
+                if (htmlStr.length() - index > 5 && htmlStr.substring(index, index + 5).equals("<br/>")) {
+                    index += 4;
+                    continue;
+                }
+                if (htmlStr.length() - index > 5 && htmlStr.substring(index, index + 4).equals("<td>")) {
+                    isCellOpen = true;
+                    index += 3;
+                    continue;
+                }
+                if (htmlStr.length() - index > 5 && htmlStr.substring(index, index + 5).equals("</td>")) {
+                    isCellOpen = false;
+                    index += 4;
+                    continue;
+                }
+
+                if (htmlStr.charAt(index) == '<' && isCellOpen) {
+                    htmlStr.deleteCharAt(index);
+                    htmlStr.insert(index, "&lt");
+                    index += 3;
+                }
+                if (htmlStr.charAt(index) == '>' && isCellOpen) {
+                    htmlStr.deleteCharAt(index);
+                    htmlStr.insert(index, "&gt");
+                    index += 3;
+                }
+                if (htmlStr.charAt(index) == '&' && isCellOpen) {
+                    htmlStr.deleteCharAt(index);
+                    htmlStr.insert(index, "&amp");
+                    index += 3;
+                }
+            }
 
             writer.println(htmlStr);
             System.out.println("Конвертация произведена.");
