@@ -5,7 +5,7 @@ import ru.academit.kolobov.vector.Vector.Vector;
 import java.util.Arrays;
 
 public class Matrix {
-    private Vector[] matrixOfVector;
+    private Vector[] matrixOfRow;
 
     public Matrix(Vector[] vectors) {
         int col = 0;
@@ -15,12 +15,12 @@ public class Matrix {
             }
         }
         int row = vectors.length;
-        matrixOfVector = new Vector[row];
+        matrixOfRow = new Vector[row];
         for (int j = 0; j < row; j++) {
-            matrixOfVector[j] = new Vector(col);
+            matrixOfRow[j] = new Vector(col);
             int size = vectors[j].getSize();
             for (int i = 0; i < size; i++) {
-                matrixOfVector[j].setElement(i, vectors[j].getElement(i));
+                matrixOfRow[j].setElement(i, vectors[j].getElement(i));
             }
         }
     }
@@ -29,16 +29,16 @@ public class Matrix {
         if (row <= 0 || col <= 0) {
             throw new IllegalArgumentException("Размер массив 0 или отрицательный");
         }
-        matrixOfVector = new Vector[row];
+        matrixOfRow = new Vector[row];
         for (int i = 0; i < row; i++) {
-            matrixOfVector[i] = new Vector(col);
+            matrixOfRow[i] = new Vector(col);
         }
     }
 
     public Matrix(Matrix matrix) {
-        matrixOfVector = new Vector[matrix.matrixOfVector.length];
-        for (int i = 0; i < matrix.matrixOfVector.length; i++) {
-            matrixOfVector[i] = matrix.getRow(i);
+        matrixOfRow = new Vector[matrix.matrixOfRow.length];
+        for (int i = 0; i < matrix.matrixOfRow.length; i++) {
+            matrixOfRow[i] = matrix.getRow(i);
         }
     }
 
@@ -50,100 +50,101 @@ public class Matrix {
                 col = r.length;
             }
         }
-        if (col == 0 || row == 0) {
+        if (row == 0 || col == 0) {
             throw new IllegalArgumentException("Размер массив 0");
         }
-        matrixOfVector = new Vector[row];
+        matrixOfRow = new Vector[row];
         for (int i = 0; i < row; i++) {
             double[] m = Arrays.copyOf(a[i], col);
-            matrixOfVector[i] = new Vector(m);
+            matrixOfRow[i] = new Vector(m);
         }
     }
 
     public int getColumnsCount() {
-        return matrixOfVector[0].getSize();
+        return matrixOfRow[0].getSize();
     }
 
     public int getRowsCount() {
-        return matrixOfVector.length;
+        return matrixOfRow.length;
     }
 
     public Vector getRow(int i) {
-        if (i < 0 || i > matrixOfVector.length - 1) {
-            throw new IllegalArgumentException("Индекс вектора не соответствует размерам матрицы!");
+        if (i < 0 || i >= matrixOfRow.length) {
+            throw new ArrayIndexOutOfBoundsException("Индекс вектора не соответствует размерам матрицы!");
         }
-        return new Vector(matrixOfVector[i]);
+        return new Vector(matrixOfRow[i]);
     }
 
     //как быть когда может встретиться 2 одинаковых исключения?
     public void setRow(int i, Vector v) {
-        if (i < 0 || i > matrixOfVector.length - 1) {
-            throw new IllegalArgumentException("Индекс вектора не соответствует размерам матрицы!");
+        if (i < 0 || i >= matrixOfRow.length) {
+            throw new ArrayIndexOutOfBoundsException("Индекс вектора не соответствует размерам матрицы!");
         }
         if (v.getSize() != this.getColumnsCount()) {
-            throw new IllegalArgumentException("Размер вектора отличается от размера матрицы!");
+            throw new ArrayIndexOutOfBoundsException("Размер вектора отличается от размера матрицы!");
         }
-        matrixOfVector[i] = new Vector(v);
+        matrixOfRow[i] = new Vector(v);
     }
 
     //через toString векторов
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder("{");
-        for (int i = 0; i < matrixOfVector.length; i++) {
+        for (int i = 0; i < matrixOfRow.length; i++) {
             if (i > 0) {
                 str.append(",");
             }
-            str.append(matrixOfVector[i].toString());
+            str.append(matrixOfRow[i].toString());
         }
         return str.append("}").toString();
     }
 
     public void transposition() {
-        int row = matrixOfVector.length;
-        int col = matrixOfVector[0].getSize();
-        Matrix m = new Matrix(col, row);
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                m.matrixOfVector[i].setElement(j, matrixOfVector[j].getElement(i));
-            }
+        int row = matrixOfRow.length;
+        Vector[] V = new Vector[row];
+        for (int i = 0; i < row; i++) {
+            V[i] = getColumn(i);
         }
-        matrixOfVector = m.matrixOfVector;
+        matrixOfRow = V;
     }
 
-    public Vector getVectorColumn(int i) {//можно конечно 2 раза транспонировать, но я так понимаю что это тоже не правильно?
-        double[] tmpV = new double[matrixOfVector.length];
-        for (int j = 0; j < matrixOfVector.length; j++) {
-            tmpV[j] = matrixOfVector[j].getElement(i);
+    public Vector getColumn(int i) {//можно конечно 2 раза транспонировать, но я так понимаю что это тоже не правильно?
+        if (i < 0 || i >= matrixOfRow.length) {
+            throw new ArrayIndexOutOfBoundsException("Индекс вектора не соответствует размерам матрицы!");
+        }
+        double[] tmpV = new double[matrixOfRow.length];
+        for (int j = 0; j < matrixOfRow.length; j++) {
+            tmpV[j] = matrixOfRow[j].getElement(i);
         }
         return new Vector(tmpV);
     }
 
     public void multiplicationByScalar(int s) {
-        int col = matrixOfVector[0].getSize();
-        for (Vector v : matrixOfVector) {
-            for (int k = 0; k < col; k++) {
-                v.setElement(k, v.getElement(k) * s);
-            }
+        for (Vector v : matrixOfRow) {
+            v.multiplyByScalar(s);
         }
     }
 
     public double determinant() {
-        int row = matrixOfVector.length;
-        int col = matrixOfVector[0].getSize();
+        int row = matrixOfRow.length;
+        int col = matrixOfRow[0].getSize();
 
         if (col != row) {
             throw new IllegalArgumentException("Матрица должна быть квадратного вида");
         }
 
-        if (col == 2) {
-            return matrixOfVector[0].getElement(0) * matrixOfVector[1].getElement(1) - matrixOfVector[0].getElement(1) * matrixOfVector[1].getElement(0);
+        if (col == 1) {
+            return matrixOfRow[0].getElement(0);
         }
 
-        if (matrixOfVector[0].getElement(0) == 0) {
+        if (col == 2) {
+            return matrixOfRow[0].getElement(0) * matrixOfRow[1].getElement(1) - matrixOfRow[0].getElement(1) * matrixOfRow[1].getElement(0);
+        }
+
+        if (matrixOfRow[0].getElement(0) == 0) {
             int notZeroFirstPosRow = 0;
             for (int i = 1; i < row; i++) {
-                if (matrixOfVector[i].getElement(0) == 0) {
+                if (matrixOfRow[i].getElement(0) == 0) {
                     continue;
                 }
                 notZeroFirstPosRow = i;
@@ -154,19 +155,19 @@ public class Matrix {
                 return 0;
             } else {
                 for (int i = 0; i < col; i++) {
-                    matrixOfVector[0].setElement(i, matrixOfVector[0].getElement(i) + matrixOfVector[notZeroFirstPosRow].getElement(i));
+                    matrixOfRow[0].setElement(i, matrixOfRow[0].getElement(i) + matrixOfRow[notZeroFirstPosRow].getElement(i));
                 }
             }
         }
 
         for (int j = 1; j < row; j++) {
-            double rowRatio = -matrixOfVector[j].getElement(0) / matrixOfVector[0].getElement(0);
+            double rowRatio = -matrixOfRow[j].getElement(0) / matrixOfRow[0].getElement(0);
             for (int i = 0; i < col; i++) {
-                double tmp = matrixOfVector[j].getElement(i) + matrixOfVector[0].getElement(i) * rowRatio;
-                matrixOfVector[j].setElement(i, tmp);
+                double tmp = matrixOfRow[j].getElement(i) + matrixOfRow[0].getElement(i) * rowRatio;
+                matrixOfRow[j].setElement(i, tmp);
                 double epsilon = 1.0e-10;
-                if (Math.abs(matrixOfVector[j].getElement(i)) < epsilon) {
-                    matrixOfVector[j].setElement(i, 0);
+                if (Math.abs(matrixOfRow[j].getElement(i)) < epsilon) {
+                    matrixOfRow[j].setElement(i, 0);
                 }
             }
         }
@@ -174,17 +175,17 @@ public class Matrix {
         double[][] arrayTmp = new double[row - 1][col - 1];
         for (int j = 0; j < row - 1; j++) {
             for (int i = 0; i < col - 1; i++) {
-                arrayTmp[j][i] = matrixOfVector[j + 1].getElement(i + 1);
+                arrayTmp[j][i] = matrixOfRow[j + 1].getElement(i + 1);
             }
         }
 
         Matrix m = new Matrix(arrayTmp);
-        return matrixOfVector[0].getElement(0) * m.determinant();
+        return matrixOfRow[0].getElement(0) * m.determinant();
     }
 
     public Vector multiplicationByVector(Vector v2) {
-        int row = matrixOfVector.length;
-        int col = matrixOfVector[0].getSize();
+        int row = matrixOfRow.length;
+        int col = matrixOfRow[0].getSize();
         if (row != v2.getSize()) {
             throw new IllegalArgumentException("Длина вектора должна быть равна числу строк в матрице!");
         }
@@ -192,7 +193,7 @@ public class Matrix {
         for (int j = 0; j < row; j++) {
             double tmp = 0;
             for (int i = 0; i < col; i++) {
-                tmp += matrixOfVector[j].getElement(i) * v2.getElement(i);
+                tmp += matrixOfRow[j].getElement(i) * v2.getElement(i);
             }
             arr[j] = tmp;
         }
@@ -200,42 +201,42 @@ public class Matrix {
     }
 
     public void addMatrix(Matrix m1) {
-        int row = matrixOfVector.length;
-        int col = matrixOfVector[0].getSize();
-        int row1 = m1.matrixOfVector.length;
-        int col1 = m1.matrixOfVector[0].getSize();
+        int row = matrixOfRow.length;
+        int col = matrixOfRow[0].getSize();
+        int row1 = m1.matrixOfRow.length;
+        int col1 = m1.matrixOfRow[0].getSize();
         if (row != row1 || col != col1) {
             throw new IllegalArgumentException("Размеры матриц должны совпадать!");
         }
         for (int j = 0; j < row; j++) {
             for (int i = 0; i < col; i++) {
-                double tmp = matrixOfVector[j].getElement(i) + m1.matrixOfVector[j].getElement(i);
-                matrixOfVector[j].setElement(i, tmp);
+                double tmp = matrixOfRow[j].getElement(i) + m1.matrixOfRow[j].getElement(i);
+                matrixOfRow[j].setElement(i, tmp);
             }
         }
     }
 
     public void difMatrix(Matrix m1) {
-        int row = matrixOfVector.length;
-        int col = matrixOfVector[0].getSize();
-        int row1 = m1.matrixOfVector.length;
-        int col1 = m1.matrixOfVector[0].getSize();
+        int row = matrixOfRow.length;
+        int col = matrixOfRow[0].getSize();
+        int row1 = m1.matrixOfRow.length;
+        int col1 = m1.matrixOfRow[0].getSize();
         if (row != row1 || col != col1) {
             throw new IllegalArgumentException("Размеры матриц должны совпадать!");
         }
         for (int j = 0; j < row; j++) {
             for (int i = 0; i < col; i++) {
-                double tmp = matrixOfVector[j].getElement(i) - m1.matrixOfVector[j].getElement(i);
-                matrixOfVector[j].setElement(i, tmp);
+                double tmp = matrixOfRow[j].getElement(i) - m1.matrixOfRow[j].getElement(i);
+                matrixOfRow[j].setElement(i, tmp);
             }
         }
     }
 
     public static Matrix additionMatrix(Matrix m1, Matrix m2) {
-        int row1 = m1.matrixOfVector.length;
-        int col1 = m1.matrixOfVector[0].getSize();
-        int row2 = m2.matrixOfVector.length;
-        int col2 = m2.matrixOfVector[0].getSize();
+        int row1 = m1.matrixOfRow.length;
+        int col1 = m1.matrixOfRow[0].getSize();
+        int row2 = m2.matrixOfRow.length;
+        int col2 = m2.matrixOfRow[0].getSize();
         if (row2 != row1 || col2 != col1) {
             throw new IllegalArgumentException("Размеры матриц должны совпадать!");
         }
@@ -245,10 +246,10 @@ public class Matrix {
     }
 
     public static Matrix subtractMatrix(Matrix m1, Matrix m2) {
-        int row1 = m1.matrixOfVector.length;
-        int col1 = m1.matrixOfVector[0].getSize();
-        int row2 = m2.matrixOfVector.length;
-        int col2 = m2.matrixOfVector[0].getSize();
+        int row1 = m1.matrixOfRow.length;
+        int col1 = m1.matrixOfRow[0].getSize();
+        int row2 = m2.matrixOfRow.length;
+        int col2 = m2.matrixOfRow[0].getSize();
         if (row2 != row1 || col2 != col1) {
             throw new IllegalArgumentException("Размеры матриц должны совпадать!");
         }
@@ -258,10 +259,10 @@ public class Matrix {
     }
 
     public static Matrix multiplicationMatrix(Matrix m, Matrix m1) {
-        int row = m.matrixOfVector.length;
-        int col = m.matrixOfVector[0].getSize();
-        int row1 = m1.matrixOfVector.length;
-        int col1 = m1.matrixOfVector[0].getSize();
+        int row = m.matrixOfRow.length;
+        int col = m.matrixOfRow[0].getSize();
+        int row1 = m1.matrixOfRow.length;
+        int col1 = m1.matrixOfRow[0].getSize();
         if (row != col1 || row1 != col) {
             throw new IllegalArgumentException("Количество столбцов первой матрицы должно быть равно количеству строк второй матрицы!");
         }
@@ -269,7 +270,7 @@ public class Matrix {
         for (int j = 0; j < row; j++) {
             for (int i = 0; i < col1; i++) {
                 for (int k = 0; k < col; k++) {
-                    tmpArray[j][i] += m.matrixOfVector[j].getElement(k) * m1.matrixOfVector[k].getElement(i);
+                    tmpArray[j][i] += m.matrixOfRow[j].getElement(k) * m1.matrixOfRow[k].getElement(i);
                 }
             }
         }

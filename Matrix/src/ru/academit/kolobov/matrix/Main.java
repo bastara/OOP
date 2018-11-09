@@ -39,7 +39,7 @@ public class Main {
         //Получение и задание вектора-строки по индексу
         try {
             System.out.println("Получение вектора по индексу 2: " + m1.getRow(2));
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы!");
             System.out.println();
         }
@@ -53,7 +53,7 @@ public class Main {
         Vector v9 = new Vector(c9);
         try {
             m1.setRow(2, v9);
-        } catch (IllegalArgumentException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы или размер вектора отличается от размера матрицы!");
             System.out.println();
         }
@@ -61,7 +61,13 @@ public class Main {
         System.out.println();
 
         //Получение вектора-столбца по индексу
-        Vector v10 = m1.getVectorColumn(0);
+        Vector v10 = null;
+        try {
+            v10 = m1.getColumn(0);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы или размер вектора отличается от размера матрицы!");
+            System.out.println();
+        }
         System.out.println("Получение вектора по столбцу 0: " + v10);
         System.out.println();
 
@@ -88,6 +94,7 @@ public class Main {
         System.out.println("Вычисляем определительматрицы m: " + m);
         System.out.println("Определитель матрицы m равен: " + determinant);
         System.out.println();
+        System.out.println("Вычисляем определительматрицы m: " + m);
 
         //умножение матрицы на вектор
         try {
