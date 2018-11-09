@@ -73,10 +73,10 @@ public class Main {
         System.out.println("Элемент \"5 элемент\" находится на " + list.lastIndexOf("5 элемент") + " позиции");
         System.out.println();
 
-//        //очистка списка
-//        System.out.println("Очистка списка");
-//        list.subList(1, 3).clear();
-//        System.out.println(list.subList(1, 3));
+        //очистка списка
+        System.out.println("Очистка списка subList.");
+        subList.clear();
+        System.out.println("Печать списка subList: " + subList);
 
     }
 }

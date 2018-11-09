@@ -206,11 +206,13 @@ public class MyArrayList<T> implements List {
 
     @Override
     public ListIterator listIterator() {
+        //TODO не нужен
         return null;
     }
 
     @Override
     public ListIterator listIterator(int index) {
+        //TODO не нужен
         return null;
     }
 
