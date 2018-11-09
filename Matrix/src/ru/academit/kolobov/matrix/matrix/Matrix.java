@@ -187,7 +187,7 @@ public class Matrix {
         int row = matrixOfRow.length;
         int col = matrixOfRow[0].getSize();
         if (row != v2.getSize()) {
-            throw new IllegalArgumentException("Длина вектора должна быть равна числу строк в матрице!");
+            throw new IllegalArgumentException("Длина вектора должна быть равна числу столбцов в матрице!");
         }
         double[] arr = new double[row];
         for (int j = 0; j < row; j++) {
