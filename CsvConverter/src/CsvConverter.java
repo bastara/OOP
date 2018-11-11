@@ -107,6 +107,8 @@ public class CsvConverter {
             System.out.println("Конвертация произведена.");
         } catch (FileNotFoundException e) {
             System.out.println("Проверьте пути файлов. Невозможно считать или сохранить файл.");
+        } catch (Throwable e) {
+            System.out.println("Возникли не предвиденные сложности во время обработки файла.");
         }
 
     }
