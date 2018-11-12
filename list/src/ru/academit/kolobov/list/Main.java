@@ -1,6 +1,5 @@
 package ru.academit.kolobov.list;
 
-import ru.academit.kolobov.list.listclass.ListItem;
 import ru.academit.kolobov.list.listclass.SinglyLinkedList;
 
 public class Main {
@@ -37,7 +36,7 @@ public class Main {
 
         try {
             System.out.println("Меняем элемент по индексу 3 на \"НОВЫЙ ЭЛЕМЕНТ\"");
-            list.change("НОВЫЙ ЭЛЕМЕНТ", 3);
+            list.set("НОВЫЙ ЭЛЕМЕНТ", 3);
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
@@ -54,8 +53,8 @@ public class Main {
         try {
             System.out.println();
             System.out.println("Удаление элемента под индексом 1");
-            ListItem delItem = list.delete(5);
-            System.out.println("Был удален элемент: " + delItem.getData());
+            String delItem = list.delete(1);
+            System.out.println("Был удален элемент: " + delItem);
             System.out.println("Печать списка:");
             System.out.println(list.toString());
             System.out.println();
@@ -87,8 +86,8 @@ public class Main {
         try {
             System.out.println();
             System.out.println("Удаление первого элемента");
-            ListItem<String> deleteItem = list.deleteFirst();
-            System.out.println("Был удален первый элемент,это: " + deleteItem.getData());
+            String deleteItem = list.deleteFirst();
+            System.out.println("Был удален первый элемент,это: " + deleteItem);
             System.out.println(list.toString());
             System.out.println();
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -111,13 +110,16 @@ public class Main {
         System.out.println("Копирование списка.");
         SinglyLinkedList newList = list.copyList();
         System.out.println("Меняем в старом списке элемент под 3 индексом и печатаем список.");
-        list.change("новый элемент в старом списке", 3);
+        list.set("новый элемент в старом списке", 3);
         System.out.println(list.toString());
         System.out.println();
         System.out.println("Новый список");
         System.out.println(newList.toString());
 
         System.out.println();
+        System.out.println("Меняем в новом списке элемент под индексом 2 на null и печатаем список.");
+        newList.set(null, 2);
+        System.out.println(newList.toString());
         System.out.println("Удаляем null  в новом списке: " + newList.deleteValue(null));
         System.out.println(newList.toString());
     }
