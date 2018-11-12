@@ -7,9 +7,9 @@ public class Main {
     public static void main(String[] args) {
         double[] c1 = {2, 4, 1};
         Vector v1 = new Vector(c1);
-        double[] c2 = {0, 2, 1};
+        double[] c2 = {0, 2, -5};
         Vector v2 = new Vector(c2);
-        double[] c3 = {2, 1, 1};
+        double[] c3 = {2, 1, 7};
         Vector v3 = new Vector(c3);
         Vector[] arrayV = {v1, v2, v3};
 
@@ -86,7 +86,7 @@ public class Main {
         //Вычисление определителя матрицы
         double determinant = 0;
         try {
-            determinant = m.determinant();//пока не понял может ли он быть интом
+            determinant = m.determinant();
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Матрица должна быть квадратного вида");
             System.out.println();

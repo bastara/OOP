@@ -125,6 +125,7 @@ public class Matrix {
     }
 
     public double determinant() {
+
         int rowCount = row.length;
         int colCount = getColumnsCount();
 
@@ -140,10 +141,12 @@ public class Matrix {
             return row[0].getElement(0) * row[1].getElement(1) - row[0].getElement(1) * row[1].getElement(0);
         }
 
-        if (row[0].getElement(0) == 0) {
+        Matrix tmpM = new Matrix(this);
+
+        if (tmpM.row[0].getElement(0) == 0) {
             int notZeroFirstPosRow = 0;
             for (int i = 1; i < rowCount; i++) {
-                if (row[i].getElement(0) == 0) {
+                if (tmpM.row[i].getElement(0) == 0) {
                     continue;
                 }
                 notZeroFirstPosRow = i;
@@ -154,7 +157,7 @@ public class Matrix {
                 return 0;
             } else {
                 for (int i = 0; i < colCount; i++) {
-                    row[0].setElement(i, row[0].getElement(i) + row[notZeroFirstPosRow].getElement(i));
+                    tmpM.row[0].setElement(i, row[0].getElement(i) + row[notZeroFirstPosRow].getElement(i));
                 }
             }
         }
@@ -164,7 +167,7 @@ public class Matrix {
             double rowRatio = -row[j].getElement(0) / row[0].getElement(0);
             for (int i = 0; i < colCount; i++) {
                 double tmp = row[j].getElement(i) + row[0].getElement(i) * rowRatio;
-                row[j].setElement(i, tmp);
+                tmpM.row[j].setElement(i, tmp);
                 double epsilon = 1.0e-10;
                 if (Math.abs(row[j].getElement(i)) < epsilon) {
                     row[j].setElement(i, 0);
@@ -175,12 +178,12 @@ public class Matrix {
         double[][] arrayTmp = new double[rowCount - 1][colCount - 1];
         for (int j = 0; j < rowCount - 1; j++) {
             for (int i = 0; i < colCount - 1; i++) {
-                arrayTmp[j][i] = row[j + 1].getElement(i + 1);
+                arrayTmp[j][i] = tmpM.row[j + 1].getElement(i + 1);
             }
         }
 
         Matrix m = new Matrix(arrayTmp);
-        return row[0].getElement(0) * m.determinant();
+        return tmpM.row[0].getElement(0) * m.determinant();
     }
 
     public Vector multiplicationByVector(Vector v) {
