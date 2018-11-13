@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class CsvConverter {
     public static void main(String[] args) {
-        if (args.length < 3) {
+        if (args.length < 2) {
             System.out.println("Не верное количеств аргументов! Должно быть 2 аргумента: первое-исходный файл, второе-полученный файл.");
             System.out.println("например так: java csvconferter c:\\source.csv c:\\output.html. ");//подразумеваю что пользователь знаком с работой JVM и как *.class получать объяснять не надо
             return;
