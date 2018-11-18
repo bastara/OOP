@@ -17,7 +17,7 @@ public class Main {
         try {
             m = new Matrix(arrayV);
         } catch (IllegalArgumentException e) {
-            System.out.println("EXCEPTIONS! Размер массив 0 или отрицательный. Матрица не создана");
+            System.out.println("EXCEPTIONS! Размер матрицы 0 или отрицательный. Матрица не создана");
             System.out.println();
         }
 
@@ -29,17 +29,17 @@ public class Main {
         //копируем матрицу m
         System.out.println("Копируем матрицу m в m1, маторица m1:");
         Matrix m1 = new Matrix(m);
-
         System.out.println(m1);
         System.out.println();
 
         //получаем размер матрицы m1
         System.out.println("Размер матрицы m1: " + m1.getRowsCount() + "-" + m1.getColumnsCount());
+        System.out.println();
 
         //Получение и задание вектора-строки по индексу
         try {
             System.out.println("Получение вектора по индексу 2: " + m1.getRow(2));
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы!");
             System.out.println();
         }
@@ -48,27 +48,30 @@ public class Main {
         Vector v8 = m1.getRow(2);
         System.out.println("Координаты вектора по индексу 2(через класс векторов): " + v8);
         System.out.println();
-        System.out.println("Задание ветора {3, 4, 7, 8} по индексу 2:");
+
+        //Задание вектора не верной размерности
+        System.out.println("Задание вектора {3, 4, 7, 8} по индексу 2:");
         double[] c9 = {3, 4, 7, 8};
         Vector v9 = new Vector(c9);
         try {
             m1.setRow(2, v9);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы или размер вектора отличается от размера матрицы!");
             System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.println("EXCEPTIONS! Размер вектора не соответствует размеру матрицы");
+            System.out.println();
         }
-        System.out.println("Получена матрица m1: " + m1);
-        System.out.println();
 
         //Получение вектора-столбца по индексу
         Vector v10 = null;
         try {
             v10 = m1.getColumn(0);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Индекс вектора не соответствует размерам матрицы или размер вектора отличается от размера матрицы!");
             System.out.println();
         }
-        System.out.println("Получение вектора по столбцу 0: " + v10);
+        System.out.println("Получение вектора по столбцу 0 от матрицы m1: " + v10);
         System.out.println();
 
         //Транспонирование матрицы
@@ -94,7 +97,6 @@ public class Main {
         System.out.println("Вычисляем определительматрицы m: " + m);
         System.out.println("Определитель матрицы m равен: " + determinant);
         System.out.println();
-        System.out.println("Вычисляем определительматрицы m: " + m);
 
         //умножение матрицы на вектор
         try {
@@ -121,7 +123,7 @@ public class Main {
         try {
             m10 = new Matrix(arrayV1);
         } catch (IllegalArgumentException e) {
-            System.out.println("EXCEPTIONS! Размер массив 0 или отрицательный. Матрица не создана");
+            System.out.println("EXCEPTIONS! Размер матрицы 0 или отрицательный. Матрица не создана");
             System.out.println();
         }
 
@@ -148,7 +150,6 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("EXCEPTIONS! Размеры матриц должны совпадать! Вычитание не выполнено.");
         }
-
         //Сложение матриц static
         try {
             System.out.println("Сложение матриц m и m10 (static)");
