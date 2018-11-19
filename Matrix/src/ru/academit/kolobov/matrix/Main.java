@@ -75,6 +75,7 @@ public class Main {
         System.out.println();
 
         //Транспонирование матрицы
+        System.out.println(m1);
         m1.transposition();
         System.out.println("Вывод транспонированной матрицы m1:");
         System.out.println(m1);

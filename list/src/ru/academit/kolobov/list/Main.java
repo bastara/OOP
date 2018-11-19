@@ -7,7 +7,6 @@ public class Main {
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
 
         list.addElement("первый");
-//        list.addElement("второй");
         list.addElement(null);
         list.addElement("третий");
         list.addElement("четвертый");
@@ -23,7 +22,12 @@ public class Main {
         System.out.println("     Размер текущего списка: " + list.getSizeList());
 
         //•	получение значение первого элемента
-        System.out.println("  Значение первого элемента: " + list.getFirstElement());
+        try {
+            System.out.println("  Значение первого элемента: " + list.getFirstElement());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Список пуст.");
+            System.out.println();
+        }
 
         //•	получение/изменение значения по указанному индексу.
         try {
@@ -118,7 +122,7 @@ public class Main {
 
         System.out.println();
         System.out.println("Меняем в новом списке элемент под индексом 2 на null и печатаем список.");
-        newList.set(null, 2);
+        System.out.println("ранее под этим индексом было значение:" + newList.set(null, 2));
         System.out.println(newList.toString());
         System.out.println("Удаляем null  в новом списке: " + newList.deleteValue(null));
         System.out.println(newList.toString());
