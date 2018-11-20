@@ -100,9 +100,15 @@ public class Main {
         }
 
         //•	удаление узла по значению, пусть выдает true, если элемент был удален
-        System.out.println("Удаление элемента \"третий\": " + list.deleteValue("третий"));
-        System.out.println(list.toString());
-        System.out.println();
+        try {
+            System.out.println("Удаление элемента \"третий\": " + list.deleteValue("третий"));
+            System.out.println(list.toString());
+            System.out.println();
+            System.out.println(list.getLast());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Список пуст.");
+            System.out.println();
+        }
 
         //•	разворот списка за линейное время
         list.reverse();

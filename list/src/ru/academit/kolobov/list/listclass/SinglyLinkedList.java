@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
-    private ListItem<T> last;//решил что будет требоваться достаточно часто, поэтому дешевле добавить переменную
+    private ListItem<T> last;
     private int count;
 
     public SinglyLinkedList() {
@@ -133,7 +133,42 @@ public class SinglyLinkedList<T> {
         return tmp;
     }
 
+//    public boolean deleteValue(T data) {
+//        if (count == 0) {
+//            throw new IndexOutOfBoundsException("Список пуст");
+//        }
+//
+//        if (Objects.equals(head.getData(), data)) {
+//            head = head.getNext();
+//            --count;
+//            if (count == 0) {
+//                last = null;
+//            }
+//            return true;
+//        }
+//        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+//            if (Objects.equals(p.getNext().getData(), data)) {
+//                if (last == p.getNext()) {
+//                    last = p;
+//                }
+//                p.setNext(p.getNext().getNext());
+//                --count;
+//                return true;
+//            }
+//            if (p.getNext().getNext() == null) {
+//                return false;
+//            }
+//        }
+//
+//        return false;
+//    }
+
+
     public boolean deleteValue(T data) {
+        if (count == 0) {
+            throw new IndexOutOfBoundsException("Список пуст");
+        }
+
         if (Objects.equals(head.getData(), data)) {
             head = head.getNext();
             --count;
@@ -141,21 +176,21 @@ public class SinglyLinkedList<T> {
                 last = null;
             }
             return true;
-        } else {
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (Objects.equals(p.getNext().getData(), data)) {
-                    if (last == p.getNext()) {
-                        last = p;
-                    }
-                    p.setNext(p.getNext().getNext());
-                    --count;
-                    return true;
+        }
+        for (ListItem<T> p = head; p != null && p.getNext() != null; p = p.getNext()) {
+            if (Objects.equals(p.getNext().getData(), data)) {
+                if (last == p.getNext()) {
+                    last = p;
                 }
-                if (p.getNext().getNext() == null) {
-                    return false;
-                }
+                p.setNext(p.getNext().getNext());
+                --count;
+                return true;
+            }
+            if (p.getNext().getNext() == null) {
+                return false;
             }
         }
+
         return false;
     }
 
