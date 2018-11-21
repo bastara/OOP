@@ -165,11 +165,11 @@ public class Matrix {
     }
 
     public Vector multiplicationByVector(Vector v) {
-        int rowsCount = rows.length;
-        if (rowsCount != v.getSize()) {
+        if (getColumnsCount() != v.getSize()) {
             throw new IllegalArgumentException("Длина вектора должна быть равна числу столбцов в матрице!");
         }
 
+        int rowsCount = rows.length;
         double[] arr = new double[rowsCount];
         for (int j = 0; j < rowsCount; j++) {
             arr[j] = Vector.scalarProductOfVectors(rows[j], v);

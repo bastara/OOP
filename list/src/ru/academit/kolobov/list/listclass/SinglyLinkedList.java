@@ -133,37 +133,6 @@ public class SinglyLinkedList<T> {
         return tmp;
     }
 
-//    public boolean deleteValue(T data) {
-//        if (count == 0) {
-//            throw new IndexOutOfBoundsException("Список пуст");
-//        }
-//
-//        if (Objects.equals(head.getData(), data)) {
-//            head = head.getNext();
-//            --count;
-//            if (count == 0) {
-//                last = null;
-//            }
-//            return true;
-//        }
-//        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
-//            if (Objects.equals(p.getNext().getData(), data)) {
-//                if (last == p.getNext()) {
-//                    last = p;
-//                }
-//                p.setNext(p.getNext().getNext());
-//                --count;
-//                return true;
-//            }
-//            if (p.getNext().getNext() == null) {
-//                return false;
-//            }
-//        }
-//
-//        return false;
-//    }
-
-
     public boolean deleteValue(T data) {
         if (count == 0) {
             throw new IndexOutOfBoundsException("Список пуст");
@@ -221,21 +190,25 @@ public class SinglyLinkedList<T> {
         if (head != null) {
             ListItem<T> tmp1 = new ListItem<>(head);
             last = tmp1;
-            while (tmp1.getNext() != null) {
-                head = tmp1.getNext();
-                ListItem<T> tmp2 = head.getNext();
-                head.setNext(tmp1);
-
-            }
-            for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
-
-
-                ListItem<T> tmp2 = new ListItem<>(p);
-                tmp2.setNext(tmp1);
-                tmp1 = tmp2;
-                if (p.getNext() == null) {
-                    head = tmp1;
+//            while (tmp1.getNext() != null) {
+//                head = tmp1.getNext();
+//                ListItem<T> tmp2 = head.getNext();
+//                head.setNext(tmp1);
+//
+//            }
+            tmp1 = null;
+            for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
+                if (p != head) {
+                    prev.setNext(tmp1);
                 }
+                tmp1 = p;
+
+//                ListItem<T> tmp2 = new ListItem<>(p);
+//                tmp2.setNext(tmp1);
+//                tmp1 = tmp2;
+//                if (p.getNext() == null) {
+//                    head = tmp1;
+//                }
             }
         }
     }

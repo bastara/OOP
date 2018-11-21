@@ -24,7 +24,7 @@ public class Main {
         //•	получение значение первого элемента
         try {
             System.out.println("  Значение первого элемента: " + list.getFirstElement());
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Список пуст.");
             System.out.println();
         }
@@ -32,7 +32,7 @@ public class Main {
         //•	получение/изменение значения по указанному индексу.
         try {
             System.out.println("       Элемент по индексу 3: " + list.getElementData(3));
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -41,7 +41,7 @@ public class Main {
         try {
             System.out.println("Меняем элемент по индексу 3 на \"НОВЫЙ ЭЛЕМЕНТ\"");
             list.set("НОВЫЙ ЭЛЕМЕНТ", 3);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -62,7 +62,7 @@ public class Main {
             System.out.println("Печать списка:");
             System.out.println(list.toString());
             System.out.println();
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -81,7 +81,7 @@ public class Main {
             System.out.println("Вставка элемента по индексу. Вставляем элемент \"восьмой\" по индексу 1");
             list.addElement("восьмой", 1);
             System.out.println(list.toString());
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
@@ -94,7 +94,7 @@ public class Main {
             System.out.println("Был удален первый элемент,это: " + deleteItem);
             System.out.println(list.toString());
             System.out.println();
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
