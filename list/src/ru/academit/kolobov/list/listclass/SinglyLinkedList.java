@@ -81,7 +81,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T set(T data, int index) {
-        if (index > count || index < 0) {
+        if (index >= count || index < 0) {
             throw new IndexOutOfBoundsException("Не верный индекс");
         }
 
@@ -170,49 +170,24 @@ public class SinglyLinkedList<T> {
         return last.getData();
     }
 
-//    public void reverse() {
-//        if (head != null) {
-//            last = head;
-//            ListItem<T> tmp1 = new ListItem<>(head);
-//            tmp1.setNext(null);
-//            for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
-//                ListItem<T> tmp2 = new ListItem<>(p);
-//                tmp2.setNext(tmp1);
-//                tmp1 = tmp2;
-//                if (p.getNext() == null) {
-//                    head = tmp1;
-//                }
-//            }
-//        }
-//    }
-
     public void reverse() {
         if (head != null) {
             ListItem<T> tmp1 = new ListItem<>(head);
-            last = tmp1;
-//            while (tmp1.getNext() != null) {
-//                head = tmp1.getNext();
-//                ListItem<T> tmp2 = head.getNext();
-//                head.setNext(tmp1);
-//
-//            }
-            tmp1 = null;
             for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-                if (p != head) {
-                    prev.setNext(tmp1);
+                if (prev == head || prev == null) {
+                    tmp1.setNext(null);
+                    continue;
                 }
-                tmp1 = p;
-
-//                ListItem<T> tmp2 = new ListItem<>(p);
-//                tmp2.setNext(tmp1);
-//                tmp1 = tmp2;
-//                if (p.getNext() == null) {
-//                    head = tmp1;
-//                }
+                prev.setNext(tmp1);
+                tmp1 = prev;
             }
+            last.setNext(tmp1);
+            head.setNext(null);
+            tmp1 = last;
+            last = head;
+            head = tmp1;
         }
     }
-
 
     //•	копирование списка
     public SinglyLinkedList copyList() {

@@ -120,17 +120,27 @@ public class Main {
         System.out.println("Копирование списка.");
         SinglyLinkedList newList = list.copyList();
         System.out.println("Меняем в старом списке элемент под 3 индексом и печатаем список.");
-        list.set("новый элемент в старом списке", 3);
-        System.out.println(list.toString());
-        System.out.println();
-        System.out.println("Новый список");
-        System.out.println(newList.toString());
+        try {
+            list.set("новый элемент в старом списке", 3);
+            System.out.println(list.toString());
+            System.out.println();
+            System.out.println("Новый список");
+            System.out.println(newList.toString());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Не верный индекс.");
+            System.out.println();
+        }
 
-        System.out.println();
-        System.out.println("Меняем в новом списке элемент под индексом 2 на null и печатаем список.");
-        System.out.println("ранее под этим индексом было значение:" + newList.set(null, 2));
-        System.out.println(newList.toString());
-        System.out.println("Удаляем null  в новом списке: " + newList.deleteValue(null));
-        System.out.println(newList.toString());
+        try {
+            System.out.println();
+            System.out.println("Меняем в новом списке элемент под индексом 2 на null и печатаем список.");
+            System.out.println("ранее под этим индексом было значение:" + newList.set(null, 2));
+            System.out.println(newList.toString());
+            System.out.println("Удаляем null  в новом списке: " + newList.deleteValue(null));
+            System.out.println(newList.toString());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Не верный индекс.");
+            System.out.println();
+        }
     }
 }
