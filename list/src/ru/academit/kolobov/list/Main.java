@@ -45,7 +45,14 @@ public class Main {
             System.out.println("EXCEPTIONS! Не верный индекс.");
             System.out.println();
         }
-        System.out.println("Теперь элемент по индексу 3: " + list.getElementData(3));
+
+        try {
+            System.out.println("Теперь элемент по индексу 3: " + list.getElementData(3));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("EXCEPTIONS! Не верный индекс.");
+            System.out.println();
+        }
+
 
         //печать списка
         System.out.println();
@@ -104,7 +111,6 @@ public class Main {
             System.out.println("Удаление элемента \"третий\": " + list.deleteValue("третий"));
             System.out.println(list.toString());
             System.out.println();
-            System.out.println(list.getLast());
         } catch (IndexOutOfBoundsException e) {
             System.out.println("EXCEPTIONS! Список пуст.");
             System.out.println();
@@ -119,6 +125,7 @@ public class Main {
         //•	копирование списка
         System.out.println("Копирование списка.");
         SinglyLinkedList newList = list.copyList();
+        System.out.println(newList);
         System.out.println("Меняем в старом списке элемент под 3 индексом и печатаем список.");
         try {
             list.set("новый элемент в старом списке", 3);

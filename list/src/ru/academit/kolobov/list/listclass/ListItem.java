@@ -8,11 +8,6 @@ public class ListItem<T> {
         this.data = data;
     }
 
-    ListItem(ListItem<T> sourceItem) {
-        this.data = sourceItem.data;
-        this.next = sourceItem.next;
-    }
-
     public ListItem(T data, ListItem<T> next) {
         this.data = data;
         this.next = next;

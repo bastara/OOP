@@ -22,7 +22,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T getElementData(int index) {
-        if (index > count || index < 0) {
+        if (index >= count || index < 0) {
             throw new IndexOutOfBoundsException("Не верный индекс");
         }
         return getElement(index).getData();
@@ -109,15 +109,18 @@ public class SinglyLinkedList<T> {
         if (index == 0) {
             return deleteFirst();
         }
-        ListItem<T> tmp = getElement(index);
+        ListItem<T> tmp1;
         if (index + 1 == count) {
             last = getElement(index - 1);
+            tmp1 = last.getNext();
             last.setNext(null);
         } else {
-            getElement(index - 1).setNext(tmp.getNext());
+            ListItem<T> tmp2 = getElement(index - 1);
+            tmp1 = tmp2.getNext();
+            tmp2.setNext(tmp1.getNext());
         }
         --count;
-        return tmp.getData();
+        return tmp1.getData();
     }
 
     public T deleteFirst() {
@@ -172,10 +175,9 @@ public class SinglyLinkedList<T> {
 
     public void reverse() {
         if (head != null) {
-            ListItem<T> tmp1 = new ListItem<>(head);
-            for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-                if (prev == head || prev == null) {
-                    tmp1.setNext(null);
+            ListItem<T> tmp1 = new ListItem<>(head.getData());
+            for (ListItem<T> p = head.getNext(), prev = null; p != null; prev = p, p = p.getNext()) {
+                if (prev == null) {
                     continue;
                 }
                 prev.setNext(tmp1);
@@ -195,10 +197,14 @@ public class SinglyLinkedList<T> {
         if (head == null) {
             return newList;
         }
-        newList.head = new ListItem<>(head);
+        newList.head = new ListItem<>(head.getData());
         newList.last = head;
         newList.count = 1;
-        for (ListItem<T> p = head.getNext(); p != null; p = p.getNext()) {
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            if (p == head) {
+                newList.head.setNext(p.getNext());
+                continue;
+            }
             newList.addElement(p.getData());
         }
         return newList;
