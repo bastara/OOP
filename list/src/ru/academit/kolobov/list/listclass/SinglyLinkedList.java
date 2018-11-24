@@ -175,36 +175,26 @@ public class SinglyLinkedList<T> {
 
     public void reverse() {
         if (head != null) {
-            ListItem<T> tmp1 = new ListItem<>(head.getData());
-            for (ListItem<T> p = head.getNext(), prev = null; p != null; prev = p, p = p.getNext()) {
-                if (prev == null) {
+            for (ListItem<T> p = head, prev = null, prevPrev = null; p != null; prev = p, p = p.getNext()) {
+                if (p == head) {
+                    last = p;
                     continue;
                 }
-                prev.setNext(tmp1);
-                tmp1 = prev;
+                prev.setNext(prevPrev);
+                prevPrev = prev;
+                if (p.getNext() == null) {
+                    head = p;
+                    head.setNext(prev);
+                    break;
+                }
             }
-            last.setNext(tmp1);
-            head.setNext(null);
-            tmp1 = last;
-            last = head;
-            head = tmp1;
         }
     }
 
     //•	копирование списка
     public SinglyLinkedList copyList() {
         SinglyLinkedList<T> newList = new SinglyLinkedList<>();
-        if (head == null) {
-            return newList;
-        }
-        newList.head = new ListItem<>(head.getData());
-        newList.last = head;
-        newList.count = 1;
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            if (p == head) {
-                newList.head.setNext(p.getNext());
-                continue;
-            }
             newList.addElement(p.getData());
         }
         return newList;
