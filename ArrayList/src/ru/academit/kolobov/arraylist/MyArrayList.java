@@ -6,11 +6,12 @@ public class MyArrayList<T> implements List {
     private Object[] items = new Object[10];
     private int length = 0;
     private int capacity = 10;
+    private int modCount = 0;
 
 
     public MyArrayList(Object[] items, int capacity) {
         this.items = items;
-        this.length = length;
+        this.capacity = capacity;
     }
 
     public MyArrayList(int capacity) {
@@ -24,9 +25,7 @@ public class MyArrayList<T> implements List {
         if (array.length >= capacity) {
             increaseCapacity(array.length);
         }
-        for (int i = 0; i < array.length; i++) {
-            items[i] = array[i];
-        }
+        System.arraycopy(array, 0, items, 0, array.length);
         length = array.length;
     }
 
@@ -73,9 +72,7 @@ public class MyArrayList<T> implements List {
     @Override
     public Object[] toArray() {
         Object[] array = new Object[length];
-        for (int i = 0; i < length; i++) {
-            array[i] = items[i];
-        }
+        System.arraycopy(items, 0, array, 0, length);
         return array;
     }
 
@@ -86,29 +83,41 @@ public class MyArrayList<T> implements List {
         }
         items[length] = element;
         length++;
-        return items[length - 1] == element;
+        modCount++;
+        return true;
     }
 
     @Override
     public boolean addAll(Collection c) {
         Object[] a = c.toArray();
-        int tmpLength = length;
+
+        if (c.size() == 0) {
+            return false;
+        }
 
         if (length + a.length >= items.length) {
             increaseCapacity(a.length);
         }
-        for (int i = length; i < length + a.length; i++) {
-            items[i] = a[i - length];
-        }
+
+        if (length + a.length - length >= 0)
+            System.arraycopy(a, 0, items, length, length + a.length - length);
         length += a.length;
-        return tmpLength != length;
+        modCount++;
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection c) {
-        int tmpLength = length;
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
+        }
+
+        if (c.size() == 0) {
+            return false;
+        }
 
         if (index < length) {
+            //TODO проверить работоспособность
             MyArrayList<T> tmp = (MyArrayList) subList(index, length);
             length = length - (length - index);
             addAll(c);
@@ -122,17 +131,19 @@ public class MyArrayList<T> implements List {
             addAll(c);
         }
 
-        return tmpLength != length;
+        modCount++;
+        return true;
     }
 
     @Override
     public List subList(int fromIndex, int toIndex) {
-        Object[] a = new Object[toIndex - fromIndex];
-        for (int i = 0; i < toIndex - fromIndex; i++) {
-            a[i] = items[i + fromIndex];
+        if (fromIndex > length || fromIndex < 0 || toIndex > length || toIndex < 0 || fromIndex >= toIndex) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
         }
-        MyArrayList<T> tmp = new MyArrayList<>(a);
-        return tmp;
+
+        Object[] a = new Object[toIndex - fromIndex];
+        if (toIndex - fromIndex >= 0) System.arraycopy(items, fromIndex, a, 0, toIndex - fromIndex);
+        return new MyArrayList<>(a);
     }
 
     @Override
@@ -172,12 +183,11 @@ public class MyArrayList<T> implements List {
 
     @Override
     public T remove(int index) {
-        T element;
-
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
 
+        T element;
         element = (T) items[index];
         System.arraycopy(items, index + 1, items, index, length - index - 1);
         --length;
@@ -186,18 +196,18 @@ public class MyArrayList<T> implements List {
 
     @Override
     public boolean remove(Object o) {
-        int tmpSize = length;
+        int tmpModCount = modCount;
         remove(indexOf(o));
-        return tmpSize != length;
+        return tmpModCount == modCount;
     }
 
     @Override
     public boolean removeAll(Collection c) {
-        int tmpSize = length;
+        int tmpModCount = modCount;
         for (Object e : c) {
             remove(e);
         }
-        return tmpSize != length;
+        return tmpModCount == modCount;
     }
 
     @Override
@@ -212,7 +222,7 @@ public class MyArrayList<T> implements List {
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = length; i > 0; i--) {
+        for (int i = length - 1; i > 0; i--) {
             if (Objects.equals(items[i], o)) {
                 return i;
             }
