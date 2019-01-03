@@ -88,6 +88,15 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
+    public void add(int index, Object element) {
+        if (length >= items.length) {
+            increaseCapacity(1);
+        }
+        items[length] = element;
+        ++length;
+    }
+
+    @Override
     public boolean addAll(Collection c) {
         Object[] a = c.toArray();
 
@@ -98,7 +107,7 @@ public class MyArrayList<T> implements List {
         if (length + a.length >= items.length) {
             increaseCapacity(a.length);
         }
-
+//TODo через итератор
         if (length + a.length - length >= 0)
             System.arraycopy(a, 0, items, length, length + a.length - length);
         length += a.length;
@@ -108,16 +117,13 @@ public class MyArrayList<T> implements List {
 
     @Override
     public boolean addAll(int index, Collection c) {
-        if (index > length || index < 0) {
-            throw new IndexOutOfBoundsException("не корректный индекс");
-        }
-
         if (c.size() == 0) {
             return false;
         }
 
         if (index < length) {
             //TODO проверить работоспособность
+            //TODo через итератор
             MyArrayList<T> tmp = (MyArrayList) subList(index, length);
             length = length - (length - index);
             addAll(c);
@@ -173,15 +179,6 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public void add(int index, Object element) {
-        if (length >= items.length) {
-            increaseCapacity(1);
-        }
-        items[length] = element;
-        ++length;
-    }
-
-    @Override
     public T remove(int index) {
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("не корректный индекс");
@@ -191,6 +188,7 @@ public class MyArrayList<T> implements List {
         element = (T) items[index];
         System.arraycopy(items, index + 1, items, index, length - index - 1);
         --length;
+        modCount++;
         return element;
     }
 
@@ -206,6 +204,26 @@ public class MyArrayList<T> implements List {
         int tmpModCount = modCount;
         for (Object e : c) {
             remove(e);
+        }
+        return tmpModCount == modCount;
+    }
+
+    @Override
+    public boolean retainAll(Collection c) {
+        int tmpModCount = modCount;
+        for (int i = 0; i < length; i++) {
+            boolean check = false;
+            for (Object e : c) {
+                if (Objects.equals(items[i], e)) {
+                    check = true;
+                    break;
+                }
+            }
+            if (!check) {
+                remove(i);
+                i--;
+                length--;
+            }
         }
         return tmpModCount == modCount;
     }
@@ -243,11 +261,6 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public boolean retainAll(Collection c) {
-        return false;
-    }
-
-    @Override
     public boolean containsAll(Collection c) {
         return false;
     }
@@ -258,7 +271,30 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<T> iterator() {
+        return new MyListIterator();
+    }
+
+    private class MyListIterator implements Iterator<T> {
+        private int currentIndex = -1;
+        private int iteratorModCount = modCount;
+
+        //TODO modCount
+
+        public boolean hasNext() {
+            return currentIndex + 1 < length;
+        }
+
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("Нет следущего элемента");
+            }
+
+            if (modCount != iteratorModCount) {
+                throw new ConcurrentModificationException("Список изменился");
+            }
+            ++currentIndex;
+            return (T) items[currentIndex];
+        }
     }
 }
