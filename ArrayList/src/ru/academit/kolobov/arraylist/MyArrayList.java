@@ -22,12 +22,19 @@ public class MyArrayList<T> implements List {
 
     public MyArrayList(Object[] array) {
         if (array.length >= capacity) {
-            increaseCapacity();
+            increaseCapacity(array.length);
         }
         for (int i = 0; i < array.length; i++) {
             items[i] = array[i];
         }
         length = array.length;
+    }
+
+    private void increaseCapacity(int s) {
+        // в 2 раза не слишком много?
+        int newSize = (s > length) ? s : length;
+        items = Arrays.copyOf(items, capacity + newSize);
+        capacity += newSize;
     }
 
     @Override
@@ -64,11 +71,6 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
-    }
-
-    @Override
     public Object[] toArray() {
         Object[] array = new Object[length];
         for (int i = 0; i < length; i++) {
@@ -80,7 +82,7 @@ public class MyArrayList<T> implements List {
     @Override
     public boolean add(Object element) {
         if (length + 1 >= capacity) {
-            increaseCapacity();
+            increaseCapacity(1);
         }
         items[length] = element;
         length++;
@@ -88,27 +90,24 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public boolean remove(Object o) {
-
-        return false;
-    }
-
-    @Override
     public boolean addAll(Collection c) {
         Object[] a = c.toArray();
+        int tmpLength = length;
+
         if (length + a.length >= items.length) {
-            increaseCapacity();
+            increaseCapacity(a.length);
         }
         for (int i = length; i < length + a.length; i++) {
             items[i] = a[i - length];
         }
         length += a.length;
-        //TODO return
-        return true;
+        return tmpLength != length;
     }
 
     @Override
     public boolean addAll(int index, Collection c) {
+        int tmpLength = length;
+
         if (index < length) {
             MyArrayList<T> tmp = (MyArrayList) subList(index, length);
             length = length - (length - index);
@@ -123,8 +122,7 @@ public class MyArrayList<T> implements List {
             addAll(c);
         }
 
-//        //TODO return
-        return true;
+        return tmpLength != length;
     }
 
     @Override
@@ -147,41 +145,59 @@ public class MyArrayList<T> implements List {
 
     @Override
     public Object get(int index) {
-        //TODO бросить исключение если выход за length
+        if (index >= length || index < 0) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
+        }
         return items[index];
     }
 
     @Override
     public Object set(int index, Object element) {
-        //TODO бросить исключение если выход за length
-        //TODO обработать ретурн
+        if (index >= length || index < 0) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
+        }
+        Object tmpE = items[index];
         items[index] = element;
-        return items[index] == element;
-    }
-
-    private void increaseCapacity() {
-        items = Arrays.copyOf(items, capacity * 2);
-        capacity *= 2;
+        return tmpE;
     }
 
     @Override
     public void add(int index, Object element) {
         if (length >= items.length) {
-            increaseCapacity();
+            increaseCapacity(1);
         }
         items[length] = element;
         ++length;
     }
 
     @Override
-    public Object remove(int index) {
-        { // TODO выход за границы
-            if (index < length - 1)
-                System.arraycopy(items, index + 1, items, index, length - index - 1);
+    public T remove(int index) {
+        T element;
+
+        if (index >= length || index < 0) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
         }
+
+        element = (T) items[index];
+        System.arraycopy(items, index + 1, items, index, length - index - 1);
         --length;
-//TODO Обработать ретурн
-        return null;
+        return element;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        int tmpSize = length;
+        remove(indexOf(o));
+        return tmpSize != length;
+    }
+
+    @Override
+    public boolean removeAll(Collection c) {
+        int tmpSize = length;
+        for (Object e : c) {
+            remove(e);
+        }
+        return tmpSize != length;
     }
 
     @Override
@@ -222,11 +238,6 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public boolean removeAll(Collection c) {
-        return false;
-    }
-
-    @Override
     public boolean containsAll(Collection c) {
         return false;
     }
@@ -234,5 +245,10 @@ public class MyArrayList<T> implements List {
     @Override
     public Object[] toArray(Object[] a) {
         return new Object[0];
+    }
+
+    @Override
+    public Iterator iterator() {
+        return null;
     }
 }

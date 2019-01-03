@@ -1,15 +1,18 @@
 package ru.academit.kolobov.arraylist;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         MyArrayList<String> list = new MyArrayList<>(10);
 
         //Проверка списка на наличие элементов
-        System.out.println("В списке есть элементы: " + list.isEmpty());
+        System.out.println("Список пуст: " + list.isEmpty());
         System.out.println();
 
         //Длина списка
         System.out.println("Длина списка: " + list.size());
+        System.out.println();
 
         //добавление элементов
         list.add("0 элемент");
@@ -19,10 +22,13 @@ public class Main {
         System.out.println("Полученный список");
         System.out.println(list);
 
-        String[] sss = {"первый из шорта", "второй из шорта", "третий из шорта"};
-        MyArrayList<String> shortList = new MyArrayList<>(sss);
-        //TODO не смог сделать конструктор под вот эту конструкцию
-        //        MyArrayList<String> shortList = new MyArrayList<>("первый из шорта", "второй из шорта", "третий из шорта");
+//        String[] randomList = {"первый из шорта", "второй из шорта", "третий из шорта"};
+//        MyArrayList<String> shortList = new MyArrayList<>(randomList);
+        //TODO как правилее делать, как закоментировано 2 строчки выше или строка та что ниже?
+        MyArrayList<String> shortList = new MyArrayList<>(new String[]{"первый из шорта", "второй из шорта", "третий из шорта"});
+
+        //TODO сделал как в лекции выдает ошибку
+//        MyArrayList<String> shortList = new MyArrayList<>(Arrays.asList("первый из шорта", "второй из шорта", "третий из шорта"));
 
         //Добавление коллекции
         System.out.println("Добавление коллекции");
@@ -36,8 +42,7 @@ public class Main {
         list.add("7 элемент");
         list.add("8 элемент");
         list.add("9 элемент");
-        list.add("10" +
-                " элемент");
+        list.add("10 элемент");
 
         System.out.println("Список после добавления еще 6 элементов:");
         System.out.println(list);
@@ -78,5 +83,34 @@ public class Main {
         subList.clear();
         System.out.println("Печать списка subList: " + subList);
 
+        //удаление элемента
+        System.out.println();
+        System.out.println("Удаление элемента на 3 позиции");
+        list.remove(3);
+        System.out.println(list.toString());
+        System.out.println();
+
+        //удаление элемента
+        System.out.println();
+        System.out.println("Удаление элемента \"8 элемент\"");
+        list.remove("8 элемент");
+        System.out.println(list.toString());
+        System.out.println();
+
+        //удаление списка
+//        System.out.println();
+//        System.out.println("Удаление списка элементов с 8 по 15й");
+//        System.out.println(list.subList(8, 15));
+//        list.removeAll(list.subList(8, 15));
+//        System.out.println(list.toString());
+//        System.out.println();
+
+        //создание массива
+
+        System.out.println();
+        Object[] array = new String[list.size()];
+        array = list.toArray();
+        System.out.println("Печать массива" + Arrays.toString(array));
+        System.out.println();
     }
 }
