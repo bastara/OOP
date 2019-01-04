@@ -3,11 +3,15 @@ package ru.academit.kolobov.arraylist;
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
-    private T[] items = (T[]) new Object[10];
+    private T[] items;
     private int length = 0;
     private int capacity = 10;
     private int modCount = 0;
 
+
+    public MyArrayList() {
+        items = (T[]) new Object[10];
+    }
 
     public MyArrayList(T[] items, int capacity) {
         this.items = items;
@@ -18,8 +22,6 @@ public class MyArrayList<T> implements List<T> {
         this.capacity = capacity;
     }
 
-    public MyArrayList() {
-    }
 
     public MyArrayList(Object[] array) {
         if (array.length >= capacity) {
@@ -33,6 +35,20 @@ public class MyArrayList<T> implements List<T> {
         int newSize = (s > length) ? s : length;
         items = Arrays.copyOf(items, capacity + newSize);
         capacity += newSize;
+    }
+
+    public void ensureCapacity(int capacity) {
+        if (items.length >= capacity) {
+            return;
+        }
+        items = Arrays.copyOf(items, capacity);
+    }
+
+    public void trimToSize() {
+        if (items.length == length) {
+            return;
+        }
+        items = Arrays.copyOf(items, length);
     }
 
     @Override
