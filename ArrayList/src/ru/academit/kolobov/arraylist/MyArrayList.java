@@ -71,9 +71,20 @@ public class MyArrayList<T> implements List {
 
     @Override
     public Object[] toArray() {
-        Object[] array = new Object[length];
-        System.arraycopy(items, 0, array, 0, length);
-        return array;
+        return Arrays.copyOf(items, length);
+    }
+
+    @Override
+    public Object[] toArray(Object[] a) {
+        if (a.length <= length) {
+            a = toArray();
+            return a;
+        }
+        System.arraycopy(items, 0, a, 0, length);
+        if (a.length > length) {
+            a[length] = null;
+        }
+        return a;
     }
 
     @Override
@@ -89,6 +100,10 @@ public class MyArrayList<T> implements List {
 
     @Override
     public void add(int index, Object element) {
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("не корректный индекс");
+        }
+
         if (length >= items.length) {
             increaseCapacity(1);
         }
@@ -107,9 +122,8 @@ public class MyArrayList<T> implements List {
         if (length + a.length >= items.length) {
             increaseCapacity(a.length);
         }
-//TODo через итератор
-        if (length + a.length - length >= 0)
-            System.arraycopy(a, 0, items, length, length + a.length - length);
+
+        System.arraycopy(a, 0, items, length, length + a.length - length);
         length += a.length;
         modCount++;
         return true;
@@ -122,10 +136,8 @@ public class MyArrayList<T> implements List {
         }
 
         if (index < length) {
-            //TODO проверить работоспособность
-            //TODo через итератор
             MyArrayList<T> tmp = (MyArrayList) subList(index, length);
-            length = length - (length - index);
+            length = index;
             addAll(c);
             addAll(tmp);
             return true;
@@ -262,13 +274,14 @@ public class MyArrayList<T> implements List {
 
     @Override
     public boolean containsAll(Collection c) {
-        return false;
+        for (Object e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
-    }
 
     @Override
     public Iterator<T> iterator() {
@@ -278,8 +291,6 @@ public class MyArrayList<T> implements List {
     private class MyListIterator implements Iterator<T> {
         private int currentIndex = -1;
         private int iteratorModCount = modCount;
-
-        //TODO modCount
 
         public boolean hasNext() {
             return currentIndex + 1 < length;

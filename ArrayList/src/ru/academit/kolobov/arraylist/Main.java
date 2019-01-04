@@ -97,13 +97,6 @@ public class Main {
         System.out.println(list.toString());
         System.out.println();
 
-        //создание массива
-        System.out.println();
-        Object[] array = new String[list.size()];
-        array = list.toArray();
-        System.out.println("Печать массива" + Arrays.toString(array));
-        System.out.println();
-
         //удаление списка
         System.out.println();
         System.out.println("Удаление списка элементов с 8 по 15й");
@@ -115,9 +108,28 @@ public class Main {
         //удаление списка
         System.out.println();
         System.out.println("Удаление всех элементов списка кроме диапозона со 2 по 6й");
-        System.out.println(list.subList(2, 6));
         list.retainAll(list.subList(2, 6));
         System.out.println(list.toString());
+        System.out.println();
+
+        //проверка содержания коллекции
+        System.out.println();
+        System.out.println("Проверка вхождения элементов со 2го по 3й");
+        System.out.println(list.subList(1, 3));
+        System.out.println(list.containsAll(list.subList(1, 3)));
+        System.out.println();
+
+        //создание массива
+        System.out.println();
+        Object[] array = list.toArray();
+        System.out.println("Печать первого массива" + Arrays.toString(array));
+        System.out.println();
+
+        //создание массива
+        System.out.println();
+        //TODO не смог сделать string, только object
+        Object[] newArray = list.toArray(new String[list.size()]);
+        System.out.println("Печать нового массива" + Arrays.toString(newArray));
         System.out.println();
     }
 }
