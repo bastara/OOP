@@ -3,10 +3,10 @@ package ru.academit.kolobov.arraylist;
 import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
-    private T[] items;
     private int length = 0;
     private int capacity = 10;
     private int modCount = 0;
+    private T[] items = (T[]) new Object[10];
 
 
     public MyArrayList() {
@@ -20,10 +20,12 @@ public class MyArrayList<T> implements List<T> {
 
     public MyArrayList(int capacity) {
         this.capacity = capacity;
+        items = (T[]) new Object[capacity];
     }
 
 
     public MyArrayList(Object[] array) {
+        items = (T[]) new Object[array.length];
         if (array.length >= capacity) {
             increaseCapacity(array.length);
         }
