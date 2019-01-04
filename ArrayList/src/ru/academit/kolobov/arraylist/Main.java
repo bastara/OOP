@@ -127,8 +127,7 @@ public class Main {
 
         //создание массива
         System.out.println();
-        //TODO не смог сделать string, только object
-        Object[] newArray = list.toArray(new String[list.size()]);
+        String[] newArray = list.toArray(new String[list.size()]);
         System.out.println("Печать нового массива" + Arrays.toString(newArray));
         System.out.println();
     }

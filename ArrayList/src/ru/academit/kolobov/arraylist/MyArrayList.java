@@ -2,14 +2,14 @@ package ru.academit.kolobov.arraylist;
 
 import java.util.*;
 
-public class MyArrayList<T> implements List {
-    private Object[] items = new Object[10];
+public class MyArrayList<T> implements List<T> {
+    private T[] items = (T[]) new Object[10];
     private int length = 0;
     private int capacity = 10;
     private int modCount = 0;
 
 
-    public MyArrayList(Object[] items, int capacity) {
+    public MyArrayList(T[] items, int capacity) {
         this.items = items;
         this.capacity = capacity;
     }
@@ -30,7 +30,6 @@ public class MyArrayList<T> implements List {
     }
 
     private void increaseCapacity(int s) {
-        // в 2 раза не слишком много?
         int newSize = (s > length) ? s : length;
         items = Arrays.copyOf(items, capacity + newSize);
         capacity += newSize;
@@ -70,15 +69,14 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public Object[] toArray() {
+    public T[] toArray() {
         return Arrays.copyOf(items, length);
     }
 
     @Override
-    public Object[] toArray(Object[] a) {
+    public <T> T[] toArray(T[] a) {
         if (a.length <= length) {
-            a = toArray();
-            return a;
+            return (T[]) toArray();
         }
         System.arraycopy(items, 0, a, 0, length);
         if (a.length > length) {
@@ -88,7 +86,7 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public boolean add(Object element) {
+    public boolean add(T element) {
         if (length + 1 >= capacity) {
             increaseCapacity(1);
         }
@@ -99,7 +97,7 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public void add(int index, Object element) {
+    public void add(int index, T element) {
         if (index > length || index < 0) {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
@@ -136,7 +134,7 @@ public class MyArrayList<T> implements List {
         }
 
         if (index < length) {
-            MyArrayList<T> tmp = (MyArrayList) subList(index, length);
+            List tmp = subList(index, length);
             length = index;
             addAll(c);
             addAll(tmp);
@@ -173,7 +171,7 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
@@ -181,11 +179,11 @@ public class MyArrayList<T> implements List {
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public T set(int index, T element) {
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
-        Object tmpE = items[index];
+        T tmpE = items[index];
         items[index] = element;
         return tmpE;
     }
@@ -197,7 +195,7 @@ public class MyArrayList<T> implements List {
         }
 
         T element;
-        element = (T) items[index];
+        element = items[index];
         System.arraycopy(items, index + 1, items, index, length - index - 1);
         --length;
         modCount++;
@@ -305,7 +303,7 @@ public class MyArrayList<T> implements List {
                 throw new ConcurrentModificationException("Список изменился");
             }
             ++currentIndex;
-            return (T) items[currentIndex];
+            return items[currentIndex];
         }
     }
 }
