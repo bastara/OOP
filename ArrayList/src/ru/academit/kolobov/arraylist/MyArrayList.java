@@ -4,7 +4,6 @@ import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
     private int length = 0;
-    //    private int capacity = 10;
     private int modCount = 0;
     private T[] items;
 
@@ -12,11 +11,6 @@ public class MyArrayList<T> implements List<T> {
     public MyArrayList() {
         items = (T[]) new Object[10];
     }
-
-//    public MyArrayList(T[] items, int capacity) {
-//        this.items = items;
-//        this.capacity = capacity;
-//    }
 
     public MyArrayList(int capacity) {
         items = (T[]) new Object[capacity];
