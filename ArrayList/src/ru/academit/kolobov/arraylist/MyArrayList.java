@@ -4,29 +4,28 @@ import java.util.*;
 
 public class MyArrayList<T> implements List<T> {
     private int length = 0;
-    private int capacity = 10;
+    //    private int capacity = 10;
     private int modCount = 0;
-    private T[] items = (T[]) new Object[10];
+    private T[] items;
 
 
     public MyArrayList() {
         items = (T[]) new Object[10];
     }
 
-    public MyArrayList(T[] items, int capacity) {
-        this.items = items;
-        this.capacity = capacity;
-    }
+//    public MyArrayList(T[] items, int capacity) {
+//        this.items = items;
+//        this.capacity = capacity;
+//    }
 
     public MyArrayList(int capacity) {
-        this.capacity = capacity;
         items = (T[]) new Object[capacity];
     }
 
 
     public MyArrayList(Object[] array) {
         items = (T[]) new Object[array.length];
-        if (array.length >= capacity) {
+        if (array.length >= items.length) {
             increaseCapacity(array.length);
         }
         System.arraycopy(array, 0, items, 0, array.length);
@@ -35,8 +34,7 @@ public class MyArrayList<T> implements List<T> {
 
     private void increaseCapacity(int s) {
         int newSize = (s > length) ? s : length;
-        items = Arrays.copyOf(items, capacity + newSize);
-        capacity += newSize;
+        items = Arrays.copyOf(items, items.length + newSize);
     }
 
     public void ensureCapacity(int capacity) {
@@ -59,7 +57,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public int getCapacity() {
-        return capacity;
+        return items.length;
     }
 
     @Override
@@ -105,7 +103,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean add(T element) {
-        if (length + 1 >= capacity) {
+        if (length + 1 >= items.length) {
             increaseCapacity(1);
         }
         items[length] = element;
