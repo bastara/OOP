@@ -43,24 +43,14 @@ public class Main {
         list.add("8 элемент");
         list.add("9 элемент");
         list.add("10 элемент");
+        list.add(5, "11 элемент");
 
         System.out.println("Список после добавления еще 6 элементов:");
         System.out.println(list);
         System.out.println("Размер списка: " + list.size());
         System.out.println("Текущая вместимость списка: " + list.getCapacity());
 
-        //sublist
-        System.out.println("Получение списка с 4 по 8 индексы:");
-        MyArrayList<String> subList = (MyArrayList) list.subList(4, 8);
-        System.out.println("__________________");
-        System.out.println(subList);
 
-        //добавление колекции с определенного индекса
-        System.out.println("Добавление subList к list по 8 индексу");
-        list.addAll(19, subList);
-        System.out.println(list);
-        System.out.println("Размер списка: " + list.size());
-        System.out.println("Текущая вместимость списка: " + list.getCapacity());
 
         //проверка вхождения
         System.out.println();
@@ -78,11 +68,6 @@ public class Main {
         System.out.println("Элемент \"5 элемент\" находится на " + list.lastIndexOf("5 элемент") + " позиции");
         System.out.println();
 
-        //очистка списка
-        System.out.println("Очистка списка subList.");
-        subList.clear();
-        System.out.println("Печать списка subList: " + subList);
-
         //удаление элемента
         System.out.println();
         System.out.println("Удаление элемента на 3 позиции");
@@ -97,27 +82,7 @@ public class Main {
         System.out.println(list.toString());
         System.out.println();
 
-        //удаление списка
-        System.out.println();
-        System.out.println("Удаление списка элементов с 8 по 15й");
-        System.out.println(list.subList(8, 15));
-        list.removeAll(list.subList(8, 15));
-        System.out.println(list.toString());
-        System.out.println();
 
-        //удаление списка
-        System.out.println();
-        System.out.println("Удаление всех элементов списка кроме диапозона со 2 по 6й");
-        list.retainAll(list.subList(2, 6));
-        System.out.println(list.toString());
-        System.out.println();
-
-        //проверка содержания коллекции
-        System.out.println();
-        System.out.println("Проверка вхождения элементов со 2го по 3й");
-        System.out.println(list.subList(1, 3));
-        System.out.println(list.containsAll(list.subList(1, 3)));
-        System.out.println();
 
         //создание массива
         System.out.println();

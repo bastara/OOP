@@ -8,29 +8,33 @@ public class MyArrayList<T> implements List<T> {
     private T[] items;
 
 
+    @SuppressWarnings("unused")
     public MyArrayList() {
+        //noinspection unchecked
         items = (T[]) new Object[10];
     }
 
-    public MyArrayList(int capacity) {
+    MyArrayList(int capacity) {
+        //noinspection unchecked
         items = (T[]) new Object[capacity];
     }
 
 
-    public MyArrayList(Object[] array) {
+    MyArrayList(T[] array) {
+        //noinspection unchecked
         items = (T[]) new Object[array.length];
-        if (array.length >= items.length) {
-            increaseCapacity(array.length);
-        }
+        increaseCapacity(array.length);
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(array, 0, items, 0, array.length);
         length = array.length;
     }
 
-    private void increaseCapacity(int s) {
-        int newSize = (s > length) ? s : length;
+    private void increaseCapacity(int sizeItems) {
+        int newSize = Math.max(sizeItems, length);
         items = Arrays.copyOf(items, items.length + newSize);
     }
 
+    @SuppressWarnings("unused")
     public void ensureCapacity(int capacity) {
         if (items.length >= capacity) {
             return;
@@ -38,6 +42,7 @@ public class MyArrayList<T> implements List<T> {
         items = Arrays.copyOf(items, capacity);
     }
 
+    @SuppressWarnings("unused")
     public void trimToSize() {
         if (items.length == length) {
             return;
@@ -50,7 +55,7 @@ public class MyArrayList<T> implements List<T> {
         return length;
     }
 
-    public int getCapacity() {
+    int getCapacity() {
         return items.length;
     }
 
@@ -61,10 +66,14 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
+        StringBuilder str = new StringBuilder("[");
         for (int i = 0; i < length; i++) {
-            str.append(items[i]).append(System.lineSeparator());
+            if (i > 0) {
+                str.append("],[");
+            }
+            str.append(items[i]);
         }
+        str.append("]");
         return str.toString();
     }
 
@@ -83,16 +92,19 @@ public class MyArrayList<T> implements List<T> {
         return Arrays.copyOf(items, length);
     }
 
+
     @Override
-    public <T> T[] toArray(T[] a) {
-        if (a.length <= length) {
-            return (T[]) toArray();
+    public <F> F[] toArray(F[] array) {
+        if (array.length <= length) {
+            //noinspection unchecked
+            return (F[]) toArray();
         }
-        System.arraycopy(items, 0, a, 0, length);
-        if (a.length > length) {
-            a[length] = null;
+        //noinspection SuspiciousSystemArraycopy
+        System.arraycopy(items, 0, array, 0, length);
+        if (array.length > length) {
+            array[length] = null;
         }
-        return a;
+        return array;
     }
 
     @Override
@@ -112,42 +124,48 @@ public class MyArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
 
-        if (length >= items.length) {
-            increaseCapacity(1);
+        if (index == length) {
+            add(element);
+            return;
         }
-        items[length] = element;
+        increaseCapacity(1);
+        System.arraycopy(items, index, items, index + 1, items.length - index - 1);
+        items[index] = element;
         ++length;
+        ++modCount;
     }
 
     @Override
     public boolean addAll(Collection c) {
-        Object[] a = c.toArray();
-
         if (c.size() == 0) {
             return false;
         }
 
-        if (length + a.length >= items.length) {
-            increaseCapacity(a.length);
+        if (length + c.size() >= items.length) {
+            increaseCapacity(c.size());
         }
 
-        System.arraycopy(a, 0, items, length, length + a.length - length);
-        length += a.length;
+        for (Object e : c) {
+            add((T) e);
+        }
+
         modCount++;
         return true;
     }
 
     @Override
-    public boolean addAll(int index, Collection c) {
+    public boolean addAll(int index, Collection<? extends T> c) {
         if (c.size() == 0) {
             return false;
         }
 
         if (index < length) {
-            List tmp = subList(index, length);
-            length = index;
-            addAll(c);
-            addAll(tmp);
+            int p = 0;
+            for (Object e : c) {
+                add(index + p, (T) e);
+                p++;
+            }
+
             return true;
         } else if (index == length) {
             addAll(c);
@@ -161,15 +179,11 @@ public class MyArrayList<T> implements List<T> {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List subList(int fromIndex, int toIndex) {
-        if (fromIndex > length || fromIndex < 0 || toIndex > length || toIndex < 0 || fromIndex >= toIndex) {
-            throw new IndexOutOfBoundsException("не корректный индекс");
-        }
-
-        Object[] a = new Object[toIndex - fromIndex];
-        if (toIndex - fromIndex >= 0) System.arraycopy(items, fromIndex, a, 0, toIndex - fromIndex);
-        return new MyArrayList<>(a);
+        //TODO не нужен
+        return null;
     }
 
     @Override
@@ -204,8 +218,7 @@ public class MyArrayList<T> implements List<T> {
             throw new IndexOutOfBoundsException("не корректный индекс");
         }
 
-        T element;
-        element = items[index];
+        T element = items[index];
         System.arraycopy(items, index + 1, items, index, length - index - 1);
         --length;
         modCount++;
@@ -268,15 +281,19 @@ public class MyArrayList<T> implements List<T> {
         return -1;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ListIterator listIterator() {
         //TODO не нужен
+        //noinspection ConstantConditions
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public ListIterator listIterator(int index) {
         //TODO не нужен
+        //noinspection ConstantConditions
         return null;
     }
 
