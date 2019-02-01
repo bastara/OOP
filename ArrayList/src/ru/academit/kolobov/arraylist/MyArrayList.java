@@ -19,7 +19,6 @@ public class MyArrayList<T> implements List<T> {
         items = (T[]) new Object[capacity];
     }
 
-
     MyArrayList(T[] array) {
         //noinspection unchecked
         items = (T[]) new Object[array.length];
@@ -94,10 +93,10 @@ public class MyArrayList<T> implements List<T> {
 
 
     @Override
-    public <F> F[] toArray(F[] array) {
+    public <T> T[] toArray(T[] array) {
         if (array.length <= length) {
             //noinspection unchecked
-            return (F[]) toArray();
+            return (T[]) toArray();
         }
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, array, 0, length);
@@ -136,7 +135,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection c) {
+    public boolean addAll(Collection<? extends T> c) {
         if (c.size() == 0) {
             return false;
         }
@@ -165,7 +164,6 @@ public class MyArrayList<T> implements List<T> {
                 add(index + p, (T) e);
                 p++;
             }
-
             return true;
         } else if (index == length) {
             addAll(c);
@@ -229,36 +227,29 @@ public class MyArrayList<T> implements List<T> {
     public boolean remove(Object o) {
         int tmpModCount = modCount;
         remove(indexOf(o));
-        return tmpModCount == modCount;
+        return tmpModCount != modCount;
     }
 
     @Override
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         int tmpModCount = modCount;
         for (Object e : c) {
-            remove(e);
+            while (remove(e)) {
+            }
         }
-        return tmpModCount == modCount;
+        return tmpModCount != modCount;
     }
 
     @Override
-    public boolean retainAll(Collection c) {
+    public boolean retainAll(Collection<?> c) {
         int tmpModCount = modCount;
-        for (int i = 0; i < length; i++) {
-            boolean check = false;
-            for (Object e : c) {
-                if (Objects.equals(items[i], e)) {
-                    check = true;
-                    break;
-                }
-            }
-            if (!check) {
+        for (int i = 0; i < length; ) {
+            if (!c.contains(items[i])) {
                 remove(i);
-                i--;
-                length--;
             }
+            i++;
         }
-        return tmpModCount == modCount;
+        return tmpModCount != modCount;
     }
 
     @Override
@@ -273,7 +264,7 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = length - 1; i > 0; i--) {
+        for (int i = length - 1; i >= 0; i--) {
             if (Objects.equals(items[i], o)) {
                 return i;
             }
