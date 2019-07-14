@@ -5,6 +5,8 @@ import ru.academit.kolobov.vector.Vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
+
+
         double[] c1 = {2, 4, 1};
         Vector v1 = new Vector(c1);
         double[] c2 = {0, 2, -5};

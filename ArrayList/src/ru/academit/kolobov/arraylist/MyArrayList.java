@@ -28,6 +28,7 @@ public class MyArrayList<T> implements List<T> {
         length = array.length;
     }
 
+    //видимо зря я его сделал, нужен следующий метод
     private void increaseCapacity(int sizeItems) {
         int newSize = Math.max(sizeItems, length);
         items = Arrays.copyOf(items, items.length + newSize);

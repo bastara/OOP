@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Vector {
     private double[] coordinates;
 
+
     public Vector(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("Размерность прстранства 0 или отрицательная");
@@ -13,7 +14,9 @@ public class Vector {
     }
 
     public Vector(Vector vector) {
-        coordinates = Arrays.copyOf(vector.coordinates, vector.coordinates.length);
+//        coordinates = Arrays.copyOf(vector.coordinates, vector.coordinates.length);
+        //другой способ от Паши
+        this(vector.coordinates);
     }
 
     public Vector(double[] a) {
