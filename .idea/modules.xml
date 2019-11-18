@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/Callback/Callback.iml" filepath="$PROJECT_DIR$/Callback/Callback.iml" />
       <module fileurl="file://$PROJECT_DIR$/CsvConverter/CsvConverter.iml" filepath="$PROJECT_DIR$/CsvConverter/CsvConverter.iml" />
       <module fileurl="file://$PROJECT_DIR$/HashTable/HashTable.iml" filepath="$PROJECT_DIR$/HashTable/HashTable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LambdaTest/LambdaTest.iml" filepath="$PROJECT_DIR$/LambdaTest/LambdaTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/Matrix/Matrix.iml" filepath="$PROJECT_DIR$/Matrix/Matrix.iml" />
       <module fileurl="file://$PROJECT_DIR$/Range/Range.iml" filepath="$PROJECT_DIR$/Range/Range.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shapes/Shapes.iml" filepath="$PROJECT_DIR$/Shapes/Shapes.iml" />
